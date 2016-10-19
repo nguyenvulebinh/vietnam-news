@@ -106,7 +106,7 @@ class web_crawler():
 
                             #Lay thong tin 
                             title = a_tag["title"]
-                            url1 = "http://"+G_DOMAIN + a_tag["href"]
+                            url1 = "http://"+self.current_domain + a_tag["href"]
                             image_url = a_tag.img["src"]
                             content_paper = get_content_paper(url1); # tai va boc tach noi dung bai viet
 
@@ -147,7 +147,7 @@ class web_crawler():
 
                                 #Lay thong tin 
                                 title = a_tag["title"]
-                                url1 = "http://"+G_DOMAIN + a_tag["href"]
+                                url1 = "http://"+self.current_domain + a_tag["href"]
                                 image_url = a_tag.img["src"]
                                 
                                 # Kiem tra trang nay xem da crawl hay chua 
@@ -188,10 +188,10 @@ if __name__ == "__main__":
     ]
     
     # Cac trang co rss
-    for link_rss in rss_page_links :
-        parser = rss_parser(link_rss)
-        for web in  parser.get_list_web(1000):
-            web.write_to_file('Data')
+#    for link_rss in rss_page_links :
+#        parser = rss_parser(link_rss)
+#        for web in  parser.get_list_web(1000):
+#            web.write_to_file('Data')
     
     # Cac trang ko co rss
     for domain in web_mannual_page_links :

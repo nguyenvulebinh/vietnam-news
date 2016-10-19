@@ -3,13 +3,12 @@
 # and open the template in the editor.
 
 from bs4 import BeautifulSoup   # external lib
-import requests                 # external lib
-#import feedparser              # external lib
 import sys  
 reload(sys)  
 sys.setdefaultencoding('utf8')
 
 from libs_support import *
+from web import *
 
 class rss_parser():
     """
