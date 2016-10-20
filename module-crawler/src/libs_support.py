@@ -149,6 +149,32 @@ def get_content_paper(url):
                     
                 break # chi xu ly the co class="kcccw-news-detail" dau tien 
             
+        elif url.find("vtv.vn") != -1:  
+            
+            labels = "vtv"
+            content_text = ""
+
+            for div_container in soup.find_all('div', 'main') :
+                #lay thong tin nhan bai bao
+                for div_tag in div_container.find_all('div', "submenu"):
+                    for label in div_tag.find_all('a', href = True):
+                        labels += ("/"+label.text)
+                        break # lay the a dau tien 
+                            
+                #lay noi dung bai bao
+                for div_detail in div_container.find_all('div', 'contentleft'):
+                    for h2_element in div_detail.find_all('h2','news-sapo'):
+                        # ghi lai cac gia tri text
+                        content_text += h2_element.text
+                    for div_knd in div_detail.find_all('div', {"data-field":"body"}):
+                        for p_element in div_knd.find_all('p'):
+                            # xoa bo moi the b trong p
+                            for div in p_element.find_all('b'): div.extract()
+                            # ghi lai cac gia tri text
+                            content_text += p_element.text
+                    
+                break # chi xu ly the co class="main" dau tien 
+            
         content_paper["labels"] = labels         
         content_paper["content_text"] = content_text   
         

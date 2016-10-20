@@ -11,7 +11,6 @@ from web import *
 from libs_support import *
 from rss_parser import *
 
-G_DOMAIN = ""
 
 class web_crawler():
     
@@ -67,7 +66,8 @@ class web_crawler():
                         for title_element in div_menu.find_all('li'):
                             for a_tag in title_element.find_all('a', href = True):
                                 if(a_tag['href'] == '/' or a_tag['href'][0:1] != '/'): continue
-                                titles.append(a_tag['href'][1:])
+                                if (a_tag['href'][1:] not in titles):
+                                    titles.append(a_tag['href'][1:])
                 
             except Exception, e:
                 print '[Exception - get title web] '+url1
@@ -78,11 +78,28 @@ class web_crawler():
 
     def get_list_web(self, max_len):
         try:
-            list_web = []
-            for title in self.get_titles():
+            list_web = []   # ds cac doi tuong web tra ve
+            titles = self.get_titles()  # ds title cua 1 trang bao 
+            
+            # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
+            count_title = titles.__len__()  # dung de tinh ti le gioi han sl bai 
+            count_max_web = 0   # gia tri so web toi da cho title hien tai
+            i_current_title = 0 # chi so cua title hien tai
+            b_next_title = False
+            
+            for title in titles:
                 
+                # cai dat cac bien gioi han so luong bai viet
+                b_next_title = False
+                i_current_title += 1 
+                count_max_web = (i_current_title*1.0 / count_title)*max_len
+                print (count_max_web)
+
+                # lay thong tin bai viet
                 url_title = 'http://'+self.current_domain+'/'+title
-                print(url_title)
+                print('[Crawling] '+url_title)
+                
+                # lay danh sach bai viet moi tren trang nhat
                 content = get_content(url_title)
                 if content is None: return list_web
                 soup = BeautifulSoup(content, 'html.parser')
@@ -116,8 +133,9 @@ class web_crawler():
                             continue
 
                         # Kiem tra gioi han so luong web 
-                        if list_web.__len__() > max_len:
-                            return list_web
+                        if list_web.__len__() > count_max_web:
+                            b_next_title = True
+                            break
 
                         #Tao doi tuong 
                         if( content_paper['content_text']!=None and content_paper['labels']!= None) :
@@ -125,30 +143,42 @@ class web_crawler():
                             list_web.append(element) 
                             
                             
-                elif self.current_domain == "kenh14.vn":     
+                elif (self.current_domain == "kenh14.vn"
+                        or self.current_domain == "vtv.vn" ):     
                     
                     #Lay cac the bai biet
                     contain_tags = []
                     list_url_crawled = []
-                    contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"k14_channel_b9"}))
-                    contain_tags.extend(soup.find_all("div", 'slimScrollDiv'))
-                    contain_tags.extend(soup.find_all("div", 'kcnwtn-hot-news'))
-                    contain_tags.extend(soup.find_all("div", 'kcnw-list-news-wrapper'))
-
+                    
+                    if self.current_domain == "kenh14.vn":
+                        contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"k14_channel_b9"}))
+                        contain_tags.extend(soup.find_all("div", 'slimScrollDiv'))
+                        contain_tags.extend(soup.find_all("div", 'kcnwtn-hot-news'))
+                        contain_tags.extend(soup.find_all("div", 'kcnw-list-news-wrapper'))
+                    
+                    elif self.current_domain == "vtv.vn":
+                        contain_tags.extend(soup.find_all("div", "noibat1"))
+                        contain_tags.extend(soup.find_all("div", 'noibat2'))
+                        contain_tags.extend(soup.find_all("div", 'cate_right1'))
+                        contain_tags.extend(soup.find_all("div", 'cate_right2'))
+                        contain_tags.extend(soup.find_all("div", 'list_cate'))
 
                     # Lay tin bai dac biet
                     for div_tag in contain_tags:
+                        if b_next_title == True: break
                         for a_tag in div_tag.find_all('a', href = True):
                             try:
                                 #Kiem tra thong tin 
-                                if ((not a_tag.has_attr('title')) or  (not a_tag.has_attr('href'))
-                                    or (a_tag.img == None) ): continue
-                                if not a_tag.img.has_attr('src') : continue
-
+                                if ((not a_tag.has_attr('title')) or  (not a_tag.has_attr('href'))):
+                                    continue
+                                
                                 #Lay thong tin 
                                 title = a_tag["title"]
                                 url1 = "http://"+self.current_domain + a_tag["href"]
-                                image_url = a_tag.img["src"]
+                                image_url = ""
+                                if  (a_tag.img != None): 
+                                    if a_tag.img.has_attr('src') :
+                                        image_url = a_tag.img["src"]    
                                 
                                 # Kiem tra trang nay xem da crawl hay chua 
                                 if url1 not in list_url_crawled:
@@ -157,8 +187,9 @@ class web_crawler():
                                     list_url_crawled.append(url1)
                                     
                                     # Kiem tra gioi han so luong web 
-                                    if list_web.__len__() > max_len:
-                                        return list_web
+                                    if list_web.__len__() > count_max_web:
+                                        b_next_title = True
+                                        break
 
                                     #Tao doi tuong 
                                     if( content_paper['content_text']!=None and content_paper['labels']!= None) :
@@ -169,8 +200,6 @@ class web_crawler():
                                 print '[Exception - get info in item rss] '+url1
                                 print '[Exception - get info in item rss] '+str(e)
                                 continue
-
-           
                 
             return list_web
 
@@ -182,19 +211,27 @@ class web_crawler():
 
 if __name__ == "__main__":   
     
-    rss_page_links = ["http://vietbao.vn/vn/rss", 'http://vnexpress.net/rss']
-    web_mannual_page_links = ["dantri.com.vn","kenh14.vn" 
-        # ,"vtv.vn"  
+    max_count_web = 1500
+    rss_page_links = [
+        "http://vietbao.vn/vn/rss", 
+        "http://vnexpress.net/rss"
+    ]
+    web_mannual_page_links = [
+        "dantri.com.vn",
+        "kenh14.vn" ,
+        "vtv.vn"  
     ]
     
+    max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__()) 
+    
     # Cac trang co rss
-#    for link_rss in rss_page_links :
-#        parser = rss_parser(link_rss)
-#        for web in  parser.get_list_web(1000):
-#            web.write_to_file('Data')
+    for link_rss in rss_page_links :
+        parser = rss_parser(link_rss)
+        for web in  parser.get_list_web(max_count_web_domain):
+            web.write_to_^file('Data')
     
     # Cac trang ko co rss
     for domain in web_mannual_page_links :
         web_crawler_instance = web_crawler(domain)
-        for web_x in web_crawler_instance.get_list_web(1000):
+        for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
             web_x.write_to_file('Data')

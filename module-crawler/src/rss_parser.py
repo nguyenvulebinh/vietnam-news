@@ -65,8 +65,19 @@ class rss_parser():
         try:
             list_webs = []
             
+            # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
+            count_title = self.links_rss.__len__()  # dung de tinh ti le gioi han sl bai 
+            count_max_web = 0   # gia tri so web toi da cho title hien tai
+            i_current_title = 0 # chi so cua title hien tai
+            b_next_title = False
+            
             # lay cac link rss
             for url in self.get_links_rss():
+                
+                # cai dat cac bien gioi han so luong bai viet
+                b_next_title = False
+                i_current_title += 1 
+                count_max_web = (i_current_title*1.0 / count_title)*max_len
                 
                 print ('[Crawling] '+url)
                 content = get_content(url)
@@ -92,8 +103,9 @@ class rss_parser():
                             continue
 
                         #Kiem tra gioi han so luong bai bao
-                        if list_webs.__len__() >= max_len:
-                            return list_webs
+                        if list_webs.__len__() >= count_max_web:
+                            b_next_title = True
+                            break
                         
                         #Tao doi tuong 
                         if(url1 != None and title != None and content_paper['content_text']!=None
