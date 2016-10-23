@@ -31,20 +31,34 @@ class rss_parser():
         soup = BeautifulSoup(raw_content.encode('utf-8', 'inorge'), 'html.parser')
 
         self.links_rss = {}
-        if  self.link_web_rss.find('vnexpress.net') != -1 :
+        if  (self.link_web_rss.find('vnexpress.net') != -1 
+            or self.link_web_rss.find('dantri.com.vn') != -1) :
+            
+            domain = ""
             
             # Lay khoi div rss
-            divrss_tags = soup.find_all('div', id="rsspage")
+            if self.link_web_rss.find('vnexpress.net') != -1 :
+                domain = "vnexpress.net"
+                divrss_tags = soup.find_all('div', id="rsspage")
+            elif self.link_web_rss.find('dantri.com.vn') != -1:
+                domain = "dantri.com.vn"
+                divrss_tags = soup.find_all('div', id="rss")
+                
             if(divrss_tags == None or divrss_tags.__len__() == 0): 
                 return self.links_rss
             else: divrss_tag = divrss_tags[0]
                 
             # Duyet qua cac the a -> link
             for a_tag in divrss_tag.find_all('a', href=True):
-                self.links_rss["http://vnexpress.net"+a_tag["href"]] = True
+                if (a_tag["href"].find ('http://') == -1 ):
+                    self.links_rss["http://"+domain+a_tag["href"]] = True
+                else :
+                    self.links_rss[a_tag["href"]] = True
                 
                 
         elif  self.link_web_rss.find('vietbao.vn') != -1:
+            
+            domain = "vietbao.vn"
             
             # Lay khoi div rss
             table_rss_tags = soup.find_all('table', 'vivavietnamrss')
@@ -55,7 +69,10 @@ class rss_parser():
             # Duyet qua cac the tr -> a[0] -> link
             for tr_tag in table_rss_tag.find_all('tr'):
                 for a_tag in tr_tag.find_all('a', href=True):
-                    self.links_rss[a_tag["href"]] = True
+                    if (a_tag["href"].find ('http://') == -1 ):
+                        self.links_rss["http://"+domain+a_tag["href"]] = True
+                    else :
+                        self.links_rss[a_tag["href"]] = True
                     break   # chi lay the a dau tien 
         
         return self.links_rss
@@ -66,7 +83,7 @@ class rss_parser():
             list_webs = []
             
             # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
-            count_title = self.links_rss.__len__()  # dung de tinh ti le gioi han sl bai 
+            count_title = self.get_links_rss().__len__()  # dung de tinh ti le gioi han sl bai 
             count_max_web = 0   # gia tri so web toi da cho title hien tai
             i_current_title = 0 # chi so cua title hien tai
             b_next_title = False
@@ -78,13 +95,15 @@ class rss_parser():
                 b_next_title = False
                 i_current_title += 1 
                 count_max_web = (i_current_title*1.0 / count_title)*max_len
+                print (list_webs.__len__(), ' - ', count_max_web)
                 
                 print ('[Crawling] '+url)
                 content = get_content(url)
-                if content is None: return None
+                if content is None: return list_webs
                 soup = BeautifulSoup(content, 'html.parser' )
                 if soup == None: continue
-                if url.find("vnexpress.net") != -1 or  url.find("vietbao.vn") != -1:
+                if (url.find("vnexpress.net") != -1 or  url.find("vietbao.vn") != -1
+                    or   url.find("dantri.com.vn") != -1):
                     
                     # Lay tin bai dac biet
                     for item in soup.find_all('item'):
@@ -116,8 +135,8 @@ class rss_parser():
             return  list_webs
 
         except Exception, e:
-            print('[Exception - get webs from rss] '+str(e))
-            return None
+            print('[Exception - get list_webs rssparser] '+str(e))
+            return list_webs
         
 
 # 

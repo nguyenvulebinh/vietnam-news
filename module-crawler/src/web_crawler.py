@@ -77,8 +77,9 @@ class web_crawler():
 
 
     def get_list_web(self, max_len):
+
+        list_web = []   # ds cac doi tuong web tra ve
         try:
-            list_web = []   # ds cac doi tuong web tra ve
             titles = self.get_titles()  # ds title cua 1 trang bao 
             
             # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
@@ -93,7 +94,7 @@ class web_crawler():
                 b_next_title = False
                 i_current_title += 1 
                 count_max_web = (i_current_title*1.0 / count_title)*max_len
-                print (count_max_web)
+                print (list_web.__len__(), '/', count_max_web)
 
                 # lay thong tin bai viet
                 url_title = 'http://'+self.current_domain+'/'+title
@@ -197,27 +198,26 @@ class web_crawler():
                                         list_web.append(element) 
                                 
                             except Exception, e:
-                                print '[Exception - get info in item rss] '+url1
-                                print '[Exception - get info in item rss] '+str(e)
+                                print '[Exception - list web ] '+url1
+                                print '[Exception - list web ] '+str(e)
                                 continue
-                
-            return list_web
-
         except Exception, e:
             print(str(e))
-            return None
+            
+        return list_web
 
     
 
 if __name__ == "__main__":   
     
-    max_count_web = 1500
+    max_count_web = 200000
     rss_page_links = [
         "http://vietbao.vn/vn/rss", 
-        "http://vnexpress.net/rss"
+#        "http://vnexpress.net/rss",
+#        "http://dantri.com.vn/rss"
     ]
     web_mannual_page_links = [
-        "dantri.com.vn",
+
         "kenh14.vn" ,
         "vtv.vn"  
     ]
@@ -228,10 +228,10 @@ if __name__ == "__main__":
     for link_rss in rss_page_links :
         parser = rss_parser(link_rss)
         for web in  parser.get_list_web(max_count_web_domain):
-            web.write_to_^file('Data')
+            web.write_to_file('Data_')
     
     # Cac trang ko co rss
     for domain in web_mannual_page_links :
         web_crawler_instance = web_crawler(domain)
         for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
-            web_x.write_to_file('Data')
+            web_x.write_to_file('Data_')
