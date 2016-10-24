@@ -113,6 +113,9 @@ class rss_parser():
                             url1 = item.link.text
                             title = item.title.text
                             CData = BeautifulSoup(item.description.text, 'html.parser') 
+                            #MANHTIEN ////////////
+                            date = item.pubdate.text
+                            #MANHTIEN ////////////
                             if(CData.img!=None): image_url = CData.img['src']
                             content_paper = get_content_paper(url1); # tai va boc tach noi dung bai viet
                         
@@ -129,7 +132,9 @@ class rss_parser():
                         #Tao doi tuong 
                         if(url1 != None and title != None and content_paper['content_text']!=None
                             and content_paper['labels']!= None) :
-                            element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'])
+                            #MANHTIEN ////////////
+                            element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'], date)
+                            #MANHTIEN ////////////
                             list_webs.append(element) 
                 
             return  list_webs
@@ -150,8 +155,9 @@ class rss_parser():
 #
 # local test
 if __name__ == "__main__":    
-    parser = rss_parser('http://vietbao.vn/vn/rss')
+    parser = rss_parser('http://vnexpress.net/rss/')
     webs = parser.get_list_web(100)
     for web in  webs:
-        web.write_to_file('Data')
+        # web.write_to_file('Data')
         #print (web.get_json())
+
