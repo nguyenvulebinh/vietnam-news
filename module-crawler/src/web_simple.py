@@ -8,9 +8,9 @@ class web_simple:
     """
     
     def __init__(self, url, image_url, title):
-        self.image_url = image_url.encode('utf8',  "ignore")
-        self.url = url.encode('utf8',  "ignore")
-        self.title = title.encode('utf8',  "ignore")
+        self.image_url = image_url
+        self.url = url
+        self.title = title
 
     def get_title(self):
         return self.title

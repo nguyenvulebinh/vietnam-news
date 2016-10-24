@@ -19,8 +19,8 @@ class web(web_simple):
         # khoi tao cha 
         web_simple.__init__(self, url, image_url, title)
         # cai dat thuoc tinh
-        self.content = content.encode('utf8',  "ignore")
-        self.labels = labels.encode('utf8',  "ignore")
+        self.content = content
+        self.labels = labels
         
     def get_content(self):
         return self.content

@@ -5,7 +5,7 @@
 from bs4 import BeautifulSoup   # external lib
 import sys  
 reload(sys)  
-sys.setdefaultencoding('utf8')
+sys.setdefaultencoding('utf-8')
 
 from libs_support import *
 from web import *

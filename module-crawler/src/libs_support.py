@@ -42,7 +42,7 @@ def get_content(url):
         r = requests.get(url, headers=headers, timeout=10)
         r.encoding  = 'utf-8' 
         r.close()
-        return r.text
+        return r.text#.encode('utf-8', 'inorge')
     except Exception, e:
         print('Exception'+ str(e))
         return None
@@ -175,7 +175,7 @@ def get_content_paper(url):
                     
                 break # chi xu ly the co class="main" dau tien 
             
-        content_paper["labels"] = labels         
+        content_paper["labels"] = labels      
         content_paper["content_text"] = content_text   
         
     except Exception, e:

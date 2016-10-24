@@ -5,7 +5,7 @@
 from bs4 import BeautifulSoup
 import sys  
 reload(sys)  
-sys.setdefaultencoding('utf8')
+sys.setdefaultencoding('UTF-8')
 
 from web import *
 from libs_support import *
@@ -200,7 +200,7 @@ class web_crawler():
                             except Exception, e:
                                 print '[Exception - list web ] '+url1
                                 print '[Exception - list web ] '+str(e)
-                                continue
+                                
         except Exception, e:
             print(str(e))
             
@@ -213,25 +213,26 @@ if __name__ == "__main__":
     max_count_web = 200000
     rss_page_links = [
         "http://vietbao.vn/vn/rss", 
-#        "http://vnexpress.net/rss",
-#        "http://dantri.com.vn/rss"
+        "http://vnexpress.net/rss",
+        "http://dantri.com.vn/rss"
     ]
     web_mannual_page_links = [
-
-        "kenh14.vn" ,
-        "vtv.vn"  
+        "vtv.vn"  ,
+        "kenh14.vn" 
     ]
     
     max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__()) 
     
-    # Cac trang co rss
-    for link_rss in rss_page_links :
-        parser = rss_parser(link_rss)
-        for web in  parser.get_list_web(max_count_web_domain):
-            web.write_to_file('Data_')
     
     # Cac trang ko co rss
     for domain in web_mannual_page_links :
         web_crawler_instance = web_crawler(domain)
         for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
-            web_x.write_to_file('Data_')
+            web_x.write_to_file('Data')
+            
+    # Cac trang co rss
+    for link_rss in rss_page_links :
+        parser = rss_parser(link_rss)
+        for web_x in  parser.get_list_web(max_count_web_domain):
+            web_x.write_to_file('Data')
+    
