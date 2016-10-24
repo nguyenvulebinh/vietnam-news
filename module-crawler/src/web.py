@@ -10,7 +10,7 @@ import hashlib
 #libs local
 from web_simple import *
 from libs_support import *
-
+from database import *
 
 class web(web_simple):
     
@@ -58,6 +58,21 @@ class web(web_simple):
             file_temp.close()
             os.remove(path_file)
             print self.title + "False\n\n"
+
+
+    def insert_to_db(self, db):
+        sql = "INSERT INTO `magazine`.`magazine` (`title`,`type`, `content`, `image`, `link`, `date`, `code`)  \
+                VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');" % \
+        (' ', self.title, self.content, self.image_url, self.url, ' ', ' ')
+        
+        try:
+            #Exucute SQL Command
+            db.cursor.execute(sql)
+            # Commit changes in database
+            db.db.commit()
+        except:
+            # Rollback in case there is any error
+            db.db.rollback()
 
 # 
 #
