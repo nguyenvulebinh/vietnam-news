@@ -158,6 +158,5 @@ if __name__ == "__main__":
     parser = rss_parser('http://vnexpress.net/rss/')
     webs = parser.get_list_web(100)
     for web in  webs:
-        # web.write_to_file('Data')
+        web.write_to_file('Data')
         #print (web.get_json())
-
