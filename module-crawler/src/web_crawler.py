@@ -10,7 +10,7 @@ sys.setdefaultencoding('UTF-8')
 from web import *
 from libs_support import *
 from rss_parser import *
-
+from database import *
 
 class web_crawler():
     
@@ -210,7 +210,7 @@ class web_crawler():
 
 if __name__ == "__main__":   
     
-    max_count_web = 200000
+    max_count_web = 50
     rss_page_links = [
         "http://vietbao.vn/vn/rss", 
         "http://vnexpress.net/rss",
@@ -220,19 +220,27 @@ if __name__ == "__main__":
         "vtv.vn"  ,
         "kenh14.vn" 
     ]
+
+    # MANH TIEN
+    db = database()
     
     max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__()) 
     
     
     # Cac trang ko co rss
-    for domain in web_mannual_page_links :
-        web_crawler_instance = web_crawler(domain)
-        for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
-            web_x.write_to_file('Data')
+    # for domain in web_mannual_page_links :
+    #     web_crawler_instance = web_crawler(domain)
+    #     for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
+    #         # web_x.write_to_file('Data')
+    #         web_x.insert_to_db(db)
             
     # Cac trang co rss
     for link_rss in rss_page_links :
         parser = rss_parser(link_rss)
         for web_x in  parser.get_list_web(max_count_web_domain):
-            web_x.write_to_file('Data')
+            # web_x.write_to_file('Data')
+            print('----------------------')
+            print('Push data to DB')
+            print('----------------------')
+            web_x.insert_to_db(db)
     
