@@ -5,7 +5,6 @@
 #libs
 import json
 import os
-import hashlib
 
 #libs local
 from web_simple import *
@@ -13,33 +12,24 @@ from libs_support import *
 from database import *
 
 class web(web_simple):
-    
+
     # phuong thuc khoi tao
-    def __init__(self, url, image_url, title, content, labels):
-        # khoi tao cha 
-        web_simple.__init__(self, url, image_url, title)
+    def __init__(self, url, image_url, title, content, labels, date = None):
+
+        # khoi tao cha
+        web_simple.__init__(self, url, image_url, title, date)
+
         # cai dat thuoc tinh
         self.content = content
         self.labels = labels
 
-    # MANHTIEN ///////////
-    # phuong thuc khoi tao
-    def __init__(self, url, image_url, title, content, labels, date):
-        # khoi tao cha 
-        web_simple.__init__(self, url, image_url, title)
-        # cai dat thuoc tinh
-        self.content = content
-        self.labels = labels
-        self.date = date
-        self.code = hashlib.sha1(self.url).hexdigest()
-    # MANHTIEN ///////////
 
     def get_content(self):
         return self.content
-    
+
     def get_labels(self):
         return self.labels
-    
+
     def get_json(self):
         return json.dumps(self.__dict__, indent=4, separators=(',', ': '), ensure_ascii=False)
 
@@ -55,7 +45,7 @@ class web(web_simple):
             os.makedirs(path)
         
         # tao ten file theo ham bam
-        path_file = path + hashlib.sha1(self.url).hexdigest()
+        path_file = path + self.code
         
         # Kiem tra xem file nay da dc tai ve hay chua 
         if os.path.exists(path_file):
@@ -121,7 +111,7 @@ class web(web_simple):
             print('Error when push to DB : %s') %sql
             print(e)
             print('---------------')
-            return true;
+            return True;
 
 
 

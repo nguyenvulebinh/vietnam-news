@@ -51,18 +51,18 @@ class web_crawler():
                 # Thuc hien get title web neu chua co
                 raw_content = get_content('http://'+domain)
                 soup = BeautifulSoup(raw_content, 'html.parser')
-                
+                'k14-main-menu-wrapper'
                 # doc cac tiltle link
                 div_menu_class = None
-                if domain == 'kenh14.vn': 
-                    div_menu_class = 'kt-main-menu'
+                if domain == 'kenh14.vn':
+                    divs_menu = soup.find_all('div',id='k14-main-menu-wrapper')
                 elif  domain == 'dantri.com.vn': 
-                    div_menu_class = 'mgauto wid1004'
+                    divs_menu = soup.find_all('div', 'mgauto wid1004')
                 elif  domain == 'vtv.vn':
-                    div_menu_class = 'menu_chinh'
-                    
-                if div_menu_class != None: 
-                    for div_menu in soup.find_all('div', div_menu_class):
+                    divs_menu = soup.find_all('div', 'menu_chinh')
+
+                if divs_menu != None:
+                    for div_menu in divs_menu:
                         for title_element in div_menu.find_all('li'):
                             for a_tag in title_element.find_all('a', href = True):
                                 if(a_tag['href'] == '/' or a_tag['href'][0:1] != '/'): continue
@@ -70,25 +70,24 @@ class web_crawler():
                                     titles.append(a_tag['href'][1:])
                 
             except Exception, e:
-                print '[Exception - get title web] '+url1
                 print '[Exception - get title web] '+str(e)
-                  
         return titles
 
 
     def get_list_web(self, max_len):
 
         list_web = []   # ds cac doi tuong web tra ve
+
         try:
-            titles = self.get_titles()  # ds title cua 1 trang bao 
-            
+            labels = self.get_titles()  # ds title cua 1 trang bao
+
             # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
-            count_title = titles.__len__()  # dung de tinh ti le gioi han sl bai 
+            count_title = labels.__len__()  # dung de tinh ti le gioi han sl bai
             count_max_web = 0   # gia tri so web toi da cho title hien tai
             i_current_title = 0 # chi so cua title hien tai
             b_next_title = False
-            
-            for title in titles:
+
+            for sub_label in labels:
                 
                 # cai dat cac bien gioi han so luong bai viet
                 b_next_title = False
@@ -97,7 +96,7 @@ class web_crawler():
                 print (list_web.__len__(), '/', count_max_web)
 
                 # lay thong tin bai viet
-                url_title = 'http://'+self.current_domain+'/'+title
+                url_title = 'http://'+self.current_domain+'/'+sub_label
                 print('[Crawling] '+url_title)
                 
                 # lay danh sach bai viet moi tren trang nhat
@@ -105,7 +104,7 @@ class web_crawler():
                 if content is None: return list_web
                 soup = BeautifulSoup(content, 'html.parser')
 
-                if self.current_domain == "dantri.com.vn":  
+                if self.current_domain == "dantri.com.vn":
                     
                     #Lay cac the bai biet
                     div_tags = []
@@ -140,6 +139,10 @@ class web_crawler():
 
                         #Tao doi tuong 
                         if( content_paper['content_text']!=None and content_paper['labels']!= None) :
+                            # xu ly truong hop ko loc dc title bai viet
+                            if content_paper['labels'] == "dantri":
+                                content_paper['labels'] = "dantri/" + sub_label
+
                             element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'])
                             list_web.append(element) 
                             
@@ -150,12 +153,15 @@ class web_crawler():
                     #Lay cac the bai biet
                     contain_tags = []
                     list_url_crawled = []
-                    
+
                     if self.current_domain == "kenh14.vn":
-                        contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"k14_channel_b9"}))
-                        contain_tags.extend(soup.find_all("div", 'slimScrollDiv'))
-                        contain_tags.extend(soup.find_all("div", 'kcnwtn-hot-news'))
-                        contain_tags.extend(soup.find_all("div", 'kcnw-list-news-wrapper'))
+                        contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"kenh14-detail-d1"}))
+                        contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"kenh14-detail-d2"}))
+                        contain_tags.extend(soup.find_all("div", {'data-marked-zoneid':"kenh14-detail-d3"}))
+
+                        # contain_tags.extend(soup.find_all("div", 'slimScrollDiv'))
+                        # contain_tags.extend(soup.find_all("div", 'kcnwtn-hot-news'))
+                        # contain_tags.extend(soup.find_all("div", 'kcnw-list-news-wrapper'))
                     
                     elif self.current_domain == "vtv.vn":
                         contain_tags.extend(soup.find_all("div", "noibat1"))
@@ -192,8 +198,16 @@ class web_crawler():
                                         b_next_title = True
                                         break
 
-                                    #Tao doi tuong 
+                                    #Luu tru doi tuong
                                     if( content_paper['content_text']!=None and content_paper['labels']!= None) :
+                                        #xu ly truong hop ko loc dc label bai viet
+                                        if content_paper['labels'] ==  "kenh14" :
+                                            content_paper['labels'] =  "kenh14/" + sub_label[:-4]
+                                        elif content_paper['labels'] == "vtv":
+                                            content_paper['labels'] = "vtv/" + sub_label
+                                        elif content_paper['labels'] == "dantri":
+                                            content_paper['labels'] = "dantri/" + sub_label
+                                        # tao doi tuong
                                         element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'])
                                         list_web.append(element) 
                                 
@@ -206,41 +220,50 @@ class web_crawler():
             
         return list_web
 
-    
+
 
 if __name__ == "__main__":   
     
-    max_count_web = 50
+    max_count_web = 500
     rss_page_links = [
-        "http://vietbao.vn/vn/rss", 
+        "http://vietbao.vn/vn/rss",
         "http://vnexpress.net/rss",
-        "http://dantri.com.vn/rss"
+        "http://dantri.com.vn/rss",
+        "http://vtv.vn/rss"
     ]
     web_mannual_page_links = [
-        "vtv.vn"  ,
-        "kenh14.vn" 
+        # "vtv.vn"  ,
+        "kenh14.vn"
     ]
 
     # MANH TIEN
-    db = database()
+    #db = database()
     
-    max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__()) 
-    
-    
+    max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__())
+
+    # Cai dat bo loc crawl web
+    Web_filter.set_last_time("2016-10-26, 22:20:08+07:00")  # Bai viet moi hon ke tu thoi diem xxx
+    Web_filter.set_max_count_web_each_domain(1000)  # moi domain khong vuot qua 1000
+    Web_filter.set_max_count_web_each_sublabel(100)  # moi label trong 1 domain k vuot qua 100
+
+
+
     # Cac trang ko co rss
     # for domain in web_mannual_page_links :
     #     web_crawler_instance = web_crawler(domain)
+    #     print (domain)
     #     for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
-    #         # web_x.write_to_file('Data')
-    #         web_x.insert_to_db(db)
+    #         print (web_x.get_json())
+    #         # web_x.insert_to_db(db)
             
     # Cac trang co rss
-    for link_rss in rss_page_links :
+    for link_rss in rss_page_links:
         parser = rss_parser(link_rss)
-        for web_x in  parser.get_list_web(max_count_web_domain):
+        for web_x in  parser.get_list_web():
             # web_x.write_to_file('Data')
             print('----------------------')
             print('Push data to DB')
             print('----------------------')
-            web_x.insert_to_db(db)
-    
+            #web_x.insert_to_db(db)
+            print (web_x.get_json())
+

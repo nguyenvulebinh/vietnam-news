@@ -1,5 +1,5 @@
-import MySQLdb
-
+#import MySQLdb
+MySQLdb = None
 
 class database:
 
