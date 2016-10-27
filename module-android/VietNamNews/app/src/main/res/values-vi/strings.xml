@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Viet Nam News</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--Static String-->
+    <string name="action_settings">Cài đặt</string>
+    <string name="news_feed">Bảng tin</string>
+    <string name="category">Chuyên mục</string>
+    <string name="technology">Công nghệ</string>
+    <string name="science">Khoa học</string>
+    <string name="culture">Văn hóa</string>
+    <string name="entertainment">Giải trí</string>
+    <string name="sport">Thể thao</string>
+</resources>
