@@ -14,6 +14,9 @@ class Web_filter(object):
     check_max_count_web_each_sublabel = None
     # so web toi da 1 domain
     check_max_count_web_each_domain = None
+    # khoang thoi gian gioi han
+    start_time= None
+    finish_time = None
 
     # Cai dat thoi gian cua bai viet cuoi cung voi dinh dang: 2014-07-29, 22:45:00+07:00
     @staticmethod
@@ -30,6 +33,14 @@ class Web_filter(object):
     @staticmethod
     def set_max_count_web_each_domain(number):
         Web_filter.check_max_count_web_each_domain = number
+
+    # Cai dat gioi han khoang thoi gian
+    # vd: set_limit_time( '2014-07-29, 22:45:00+07:00',  '2014-07-29, 22:50:00+07:00')
+    # chi lay cac bai viet co nhan thoi gian trong khoang tu  22:45 - 22:50
+    @staticmethod
+    def set_limit_time(start_time_string, finish_time_string):
+        Web_filter.start_time =  dateutil_parser.parse(start_time_string)
+        Web_filter.finish_time = dateutil_parser.parse(finish_time_string)
 
     @staticmethod
     def remove_all_check():
@@ -49,6 +60,9 @@ class Web_filter(object):
 
             if b_ret == True and Web_filter.check_max_count_web_each_domain != None:
                 b_ret = count_web_each_domain < Web_filter.check_max_count_web_each_domain
+
+            if b_ret == True and Web_filter.start_time != None and Web_filter.finish_time != None :
+                b_ret = (web_x.get_date_obj() > Web_filter.start_time and web_x.get_date_obj() < Web_filter.finish_time)
 
         except Exception,e :
             print ("[Exception - check filter]"+str(e))

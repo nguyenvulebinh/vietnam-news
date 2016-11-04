@@ -74,7 +74,7 @@ class web_crawler():
         return titles
 
 
-    def get_list_web(self, max_len):
+    def get_list_web(self, max_len= 1000000):
 
         list_web = []   # ds cac doi tuong web tra ve
 
@@ -243,7 +243,8 @@ if __name__ == "__main__":
 
     # Cai dat bo loc crawl web
     Web_filter.set_last_time("2016-10-26, 22:20:08+07:00")  # Bai viet moi hon ke tu thoi diem xxx
-    Web_filter.set_max_count_web_each_domain(1000)  # moi domain khong vuot qua 1000
+    Web_filter.set_limit_time("2016-10-26, 22:20:08+07:00", "2016-10-26, 23:20:08+07:00")  # Bai viet trong khoang tg
+    Web_filter.set_max_count_web_each_domain(10000)  # moi domain khong vuot qua 1000
     Web_filter.set_max_count_web_each_sublabel(100)  # moi label trong 1 domain k vuot qua 100
 
 
@@ -252,18 +253,18 @@ if __name__ == "__main__":
     # for domain in web_mannual_page_links :
     #     web_crawler_instance = web_crawler(domain)
     #     print (domain)
-    #     for web_x in web_crawler_instance.get_list_web(max_count_web_domain):
-    #         print (web_x.get_json())
-    #         # web_x.insert_to_db(db)
+    #     for web_x in web_crawler_instance.get_list_web():
+    #         #print (web_x.write_to_file('Data'))
+    #          web_x.get_json()
             
     # Cac trang co rss
     for link_rss in rss_page_links:
         parser = rss_parser(link_rss)
         for web_x in  parser.get_list_web():
-            # web_x.write_to_file('Data')
-            print('----------------------')
-            print('Push data to DB')
-            print('----------------------')
-            #web_x.insert_to_db(db)
-            print (web_x.get_json())
+            #web_x.write_to_file('Data')
+            # print('----------------------')
+            # print('Push data to DB')
+            # print('----------------------')
+            # #web_x.insert_to_db(db)
+             print (web_x.get_json())
 

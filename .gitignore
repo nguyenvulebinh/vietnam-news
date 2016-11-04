@@ -1,6 +1,7 @@
 module-crawler/src/Data/
-/module-crawler/nbproject/
+module-crawler/nbproject/
 
 # file class of python 
 *.pyc
 
+LucenceSearcher/nbproject/private/
