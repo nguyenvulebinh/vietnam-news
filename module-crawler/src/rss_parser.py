@@ -7,8 +7,8 @@ import sys
 reload(sys)  
 sys.setdefaultencoding('utf-8')
 
-from libs_support import *
 from web import *
+from web_filter import *
 
 class rss_parser():
     """
@@ -32,8 +32,9 @@ class rss_parser():
 
         self.links_rss = {}
         if  (self.link_web_rss.find('vnexpress.net') != -1 
-            or self.link_web_rss.find('dantri.com.vn') != -1) :
-            
+            or self.link_web_rss.find('dantri.com.vn') != -1
+            or self.link_web_rss.find('vtv.vn') != -1):
+
             domain = ""
             
             # Lay khoi div rss
@@ -43,6 +44,9 @@ class rss_parser():
             elif self.link_web_rss.find('dantri.com.vn') != -1:
                 domain = "dantri.com.vn"
                 divrss_tags = soup.find_all('div', id="rss")
+            elif self.link_web_rss.find('vtv.vn') != -1:
+                domain = "vtv.vn"
+                divrss_tags = soup.find_all('div', id="listrss")
                 
             if(divrss_tags == None or divrss_tags.__len__() == 0): 
                 return self.links_rss
@@ -71,19 +75,19 @@ class rss_parser():
                 for a_tag in tr_tag.find_all('a', href=True):
                     if (a_tag["href"].find ('http://') == -1 ):
                         self.links_rss["http://"+domain+a_tag["href"]] = True
-                    else :
+                    else:
                         self.links_rss[a_tag["href"]] = True
                     break   # chi lay the a dau tien 
         
         return self.links_rss
     
     # Lay tat ca cac noi dung web  
-    def get_list_web(self,  max_len):
+    def get_list_web(self,  max_len =1000000):
         try:
             list_webs = []
             
             # Chia deu so bai viet (max_len) cho cac chu de co so luong ~ nhau  
-            count_title = self.get_links_rss().__len__()  # dung de tinh ti le gioi han sl bai 
+            count_label = self.get_links_rss().__len__()  # dung de tinh ti le gioi han sl bai
             count_max_web = 0   # gia tri so web toi da cho title hien tai
             i_current_title = 0 # chi so cua title hien tai
             b_next_title = False
@@ -94,7 +98,8 @@ class rss_parser():
                 # cai dat cac bien gioi han so luong bai viet
                 b_next_title = False
                 i_current_title += 1 
-                count_max_web = (i_current_title*1.0 / count_title)*max_len
+                count_max_web = (i_current_title*1.0 / count_label)*max_len
+                count_web_curent_label = 0
                 print (list_webs.__len__(), ' - ', count_max_web)
                 
                 print ('[Crawling] '+url)
@@ -103,7 +108,7 @@ class rss_parser():
                 soup = BeautifulSoup(content, 'html.parser' )
                 if soup == None: continue
                 if (url.find("vnexpress.net") != -1 or  url.find("vietbao.vn") != -1
-                    or   url.find("dantri.com.vn") != -1):
+                    or   url.find("dantri.com.vn") != -1 or url.find("vtv.vn") != -1):
                     
                     # Lay tin bai dac biet
                     for item in soup.find_all('item'):
@@ -113,7 +118,14 @@ class rss_parser():
                             url1 = item.link.text
                             title = item.title.text
                             CData = BeautifulSoup(item.description.text, 'html.parser') 
+                            date = item.pubdate.text
                             if(CData.img!=None): image_url = CData.img['src']
+
+                            # Kiem tra gioi han bai viet - ko mat cong crawl cac trang khong can thiet
+                            web_test = web(url1, "", "", "", "", date)
+                            if (Web_filter.check(web_test, count_web_curent_label, list_webs.__len__()) == False):
+                                continue
+
                             content_paper = get_content_paper(url1); # tai va boc tach noi dung bai viet
                         
                         except Exception, e:
@@ -125,12 +137,13 @@ class rss_parser():
                         if list_webs.__len__() >= count_max_web:
                             b_next_title = True
                             break
-                        
-                        #Tao doi tuong 
+
+                        #Tao doi tuong
                         if(url1 != None and title != None and content_paper['content_text']!=None
                             and content_paper['labels']!= None) :
-                            element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'])
-                            list_webs.append(element) 
+                            element = web(url1, image_url, title, content_paper['content_text'], content_paper['labels'], date)
+                            count_web_curent_label +=1  # bien dem so luong web 1 label, vd: label = dantri/Kinhte
+                            list_webs.append(element)
                 
             return  list_webs
 
@@ -149,9 +162,13 @@ class rss_parser():
 #
 #
 # local test
+
 if __name__ == "__main__":    
-    parser = rss_parser('http://vietbao.vn/vn/rss')
-    webs = parser.get_list_web(100)
-    for web in  webs:
-        web.write_to_file('Data')
-        #print (web.get_json())
+    parser = rss_parser('http://vtv.vn/rss')
+
+    Web_filter.set_last_time("2016-10-26, 10:20:00+00:00")
+    webs = parser.get_list_web()
+
+    for web_x in  webs:
+        #web.write_to_file('Data')
+        print (web_x.get_json())
