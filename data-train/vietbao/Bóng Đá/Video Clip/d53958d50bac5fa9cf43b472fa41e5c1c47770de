@@ -1,0 +1,7 @@
+{
+    "url": "http://vietbao.vn/Bong-da/Choi-bung-no-Bayern-Munich-nghien-nat-PSV/590334980/515/",
+    "content": "   console.log(\"run here - jadsVideo-vb-580802a280393 - \",Date());    document.addEventListener(\"DOMContentLoaded\", function(){  console.log(\"ready - jadsVideo-vb-580802a280393 -\",Date());  setTimeout(function(){  console.log(\"init video - jadsVideo-vb-580802a280393 -\",Date()); $(\".jadsVideo-vb-580802a280393\").jadsVideo({ file: 'http://media73.cdn2.vietnamnet.vn/vod/vnn/the-thao/2016/10/20/04/20161020041327-bayern-munich.mp4', poster: '', title: 'Chơi bùng nổ, Bayern Munich nghiền nát PSV' }); },500);  }); PlayGhi bàn: Thomas Mueller 13\"; Kimmich 21\"; Lewandowski 59\"; Robben 84\" - Luciano Narsingh 41\".Đội hình xuất phát:Bayern Munich: Neuer; Lahm, Hummels, Boateng, Alaba; Alonso, Thiago, Kimmich; Müller, Robben, Lewandowski.PSV: Zoet; Brenet, Schwaab, Moreno, Willems; Guardado, Proepper; S.De Jong, Narsingh, L.De Jong; Pereiro. Hoàng Việt",
+    "labels": "vietbao/Bóng Đá/Video Clip",
+    "image_url": "http://a9.vietbao.vn/images/vn999/22/2016/10/vietnam_20161020-choi-bung-no-bayern-munich-nghien-nat-psv-1.jpg",
+    "title": "Chơi bùng nổ, Bayern Munich nghiền nát PSV"
+}

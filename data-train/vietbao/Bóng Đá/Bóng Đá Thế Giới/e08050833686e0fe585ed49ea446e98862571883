@@ -1,0 +1,7 @@
+{
+    "url": "http://vietbao.vn/Bong-da/Ozil-lap-hattrick-Arsenal-thang-kieu-tennis/590334979/307/",
+    "content": "   console.log(\"run here - jadsVideo-vb-580803de626a8 - \",Date());    document.addEventListener(\"DOMContentLoaded\", function(){  console.log(\"ready - jadsVideo-vb-580803de626a8 -\",Date());  setTimeout(function(){  console.log(\"init video - jadsVideo-vb-580803de626a8 -\",Date()); $(\".jadsVideo-vb-580803de626a8\").jadsVideo({ file: 'http://media73.cdn2.vietnamnet.vn/vod/vnn/the-thao/2016/10/20/04/20161020040124-barca.mp4', poster: '', title: 'Ozil lập hat-trick, Arsenal thắng kiểu tennis' }); },500);  }); PlayGhi bàn: Sanchez 12\"; Theo Walcott 42\"; Chamberlain47\"; Ozil 56\", 83\", 87\".Đội hình xuất phát:Arsenal: Ospina; Bellerin, Mustafi, Koscielny, Gibbs; Cazorla, Coquelin; Walcott, Ozil, Oxlade-Chamberlain; Sanchez.Ludogorets: Stoyanov; Minev, Moti, Palomino, Natanael; Dyakov, Anicet; Wanderson, Marcelinho, Misidjan; Cafu.Hoàng Việt",
+    "labels": "vietbao/Bóng Đá/Bóng Đá Thế Giới",
+    "image_url": "http://a9.vietbao.vn/images/vn999/120/2016/10/vietnam_20161020-barca-4-0-man-city-2-nam-1-cu-nga-va-dinh-menh-messi-1.jpg",
+    "title": "Ozil lập hat-trick, Arsenal thắng kiểu tennis"
+}
