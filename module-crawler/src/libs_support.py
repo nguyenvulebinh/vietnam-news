@@ -8,8 +8,6 @@ import sys
 reload(sys)  
 sys.setdefaultencoding('UTF-8')
 
-from web import *
-
 def get_content(url):
     
     """
@@ -129,25 +127,30 @@ def get_content_paper(url):
             labels = "kenh14"
             content_text = ""
 
-            for div_container in soup.find_all('div', 'kcccw-news-detail') :
+            for div_container in soup.find_all('div', 'kenh14-detail') :
                 #lay thong tin nhan bai bao
-                for ol_tag in div_container.find_all('ol', "list-kndb"):
-                    for label in ol_tag.find_all('a',{'property':"item"}, href = True):
-                        if(label['href'] == '/'): continue # bo qua nhan = trang chu
-                        labels += ("/"+label.text)
+                for sub_menu in div_container.find_all('div', "kbw-submenu"):
+                    for li_tag in sub_menu.find_all('li', 'kbwsli active'):
+                        for label in li_tag.find_all('a', href = True):
+                            if(label['href'] == '/'): continue # bo qua nhan = trang chu
+                            labels += ("/"+label.text)
+                            break
+                        break
+                    break #chi lay noi dung cua submenu dau tien
                             
                 #lay noi dung bai bao
-                for h2_element in div_container.find_all('h2','knd-sapo'):
-                    # ghi lai cac gia tri text
-                    content_text += h2_element.text
-                for div_knd in div_container.find_all('div', 'knd-content'):
-                    for p_element in div_knd.find_all('p'):
-                        # xoa bo moi the div trong p
-                        for div in p_element.find_all('div'): div.extract()
+                for div_content in div_container.find_all('div', 'klw-new-content'):
+                    for h2_element in div_content.find_all('h2',['knc-sapo','knd-sapo']):
                         # ghi lai cac gia tri text
-                        content_text += p_element.text
-                    
-                break # chi xu ly the co class="kcccw-news-detail" dau tien 
+                        content_text += h2_element.text
+                    for div_knd in div_container.find_all('div', ['knc-content','knd-content']):
+                        for p_element in div_knd.find_all('p'):
+                            # xoa bo moi the div trong p
+                            for div in p_element.find_all('div'): div.extract()
+                            # ghi lai cac gia tri text
+                            content_text += p_element.text
+
+                    break # chi xu ly the co class="kcccw-news-detail" dau tien
             
         elif url.find("vtv.vn") != -1:  
             
@@ -196,7 +199,7 @@ def get_content_paper(url):
 #
 if __name__ == "__main__":
     print "Hello World"
-    content_paper = get_content_paper("http://vietbao.vn/An-ninh-Phap-luat/Can-cau-sap-vat-ngang-duong-de-vao-nha-dan/380659403/218/")
+    content_paper = get_content_paper("http://kenh14.vn/truoc-gary-thanh-vien-nay-cung-de-lai-nhieu-tiec-nuoi-khi-chia-tay-running-man-2016102716283767.chn")
     print content_paper["labels"]
     print  content_paper["content_text"] 
     

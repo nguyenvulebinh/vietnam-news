@@ -2,15 +2,30 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+import hashlib
+from dateutil import parser as dateutil_parser  # install: pip install python-dateutil
+
 class web_simple:
     """
     Thong tin co ban cua 1 trang web
     """
     
-    def __init__(self, url, image_url, title):
+    def __init__(self, url, image_url, title, date):
         self.image_url = image_url
         self.url = url
         self.title = title
+        self.code = hashlib.sha1(self.url).hexdigest()
+
+        date_tmp = ""
+        if date != None and date.__len__() > 0:
+            try:
+                date_x = dateutil_parser.parse(date)
+                date_tmp = date_x.date().__str__() + ", " + date_x.timetz().__str__()
+            except Exception, e:
+                print "[Exception - parse date when init web_simple object]" + str(e)
+                date_tmp = ""
+        self.date = date_tmp
+
 
     def get_title(self):
         return self.title
@@ -20,4 +35,9 @@ class web_simple:
     
     def get_image_url(self):
         return self.image_url
-    
+
+    def get_date_obj(self):
+        return dateutil_parser.parse(self.date)
+
+    def get_date_string(self):
+        return self.date
