@@ -77,8 +77,11 @@ class rss_parser():
                         self.links_rss["http://"+domain+a_tag["href"]] = True
                     else:
                         self.links_rss[a_tag["href"]] = True
-                    break   # chi lay the a dau tien 
-        
+                    break   # chi lay the a dau tien
+
+        elif self.link_web_rss.find('techtalk.vn') != -1:
+            self.links_rss["http://techtalk.vn/feed"] = True
+
         return self.links_rss
     
     # Lay tat ca cac noi dung web  
@@ -108,25 +111,38 @@ class rss_parser():
                 soup = BeautifulSoup(content, 'html.parser' )
                 if soup == None: continue
                 if (url.find("vnexpress.net") != -1 or  url.find("vietbao.vn") != -1
-                    or   url.find("dantri.com.vn") != -1 or url.find("vtv.vn") != -1):
+                    or   url.find("dantri.com.vn") != -1 or url.find("vtv.vn") != -1
+                    or url.find("techtalk.vn") != -1):
                     
                     # Lay tin bai dac biet
                     for item in soup.find_all('item'):
-                        
                         try:
                             #Lay thong tin 
                             url1 = item.link.text
                             title = item.title.text
-                            CData = BeautifulSoup(item.description.text, 'html.parser') 
                             date = item.pubdate.text
+                            CData = BeautifulSoup(item.description.text, 'html.parser')
                             if(CData.img!=None): image_url = CData.img['src']
+                            else : image_url = ""
 
                             # Kiem tra gioi han bai viet - ko mat cong crawl cac trang khong can thiet
                             web_test = web(url1, "", "", "", "", date)
                             if (Web_filter.check(web_test, count_web_curent_label, list_webs.__len__()) == False):
                                 continue
 
-                            content_paper = get_content_paper(url1); # tai va boc tach noi dung bai viet
+                            # tai va boc tach noi dung bai viet
+                            content_paper = get_content_paper(url1);
+                            if( url.find("techtalk.vn") != -1) : # trang techtalk - content nam trong rss
+                                content_paper = {}
+                                content_paper["labels"] = "techtalk/Cong nghe"
+                                content_paper["content_text"]=""
+                                CDataEncode = BeautifulSoup(item.text, 'html.parser')
+                                for p_element in CDataEncode.find_all('p'):
+                                    content_paper["content_text"] += p_element.text
+                                if(content_paper["content_text"]==""):
+                                    content_paper["content_text"] = None
+
+
                         
                         except Exception, e:
                             print '[Exception - get info in item rss] '+url1
@@ -164,9 +180,11 @@ class rss_parser():
 # local test
 
 if __name__ == "__main__":    
-    parser = rss_parser('http://vtv.vn/rss')
+    # parser = rss_parser('http://vtv.vn/rss')
+    parser = rss_parser("http://techtalk.vn/feed")
 
-    Web_filter.set_last_time("2016-10-26, 10:20:00+00:00")
+
+    # Web_filter.set_last_time("2016-10-26, 10:20:00+00:00")
     webs = parser.get_list_web()
 
     for web_x in  webs:
