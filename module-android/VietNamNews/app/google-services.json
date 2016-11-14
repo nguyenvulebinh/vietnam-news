@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "597076395246",
+    "firebase_url": "https://vietnam-hub.firebaseio.com",
+    "project_id": "vietnam-hub",
+    "storage_bucket": "vietnam-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597076395246:android:27fbbdbdea9b743a",
+        "android_client_info": {
+          "package_name": "nb.cblink.vnnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597076395246-215j2l2r268qbjmvigk7igc8njobp7um.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nb.cblink.vnnews",
+            "certificate_hash": "A04063335AD573CE67E0036C31118DC28C862BAA"
+          }
+        },
+        {
+          "client_id": "597076395246-p3tt749dm51c3lahdcjffi7v0jdokd9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxyrFnhQWiMsomPziBEZpq-VxMFHV0S6s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597076395246-p3tt749dm51c3lahdcjffi7v0jdokd9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

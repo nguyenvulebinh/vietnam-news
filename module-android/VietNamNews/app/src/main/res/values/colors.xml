@@ -3,4 +3,17 @@
     <color name="colorPrimary">#607D8B</color>
     <color name="colorPrimaryDark">#546E7A</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="actionButton">#bbbbbb</color>
+    <color name="windowBackground">#fafafa</color>
+    <color name="textLight">#dddddd</color>
+    <color name="textMedium">#999999</color>
+    <color name="textColor">#444444</color>
+    <color name="divider">#dddddd</color>
+
+    <color name="tabTextDefault">#afff</color>
+    <color name="tabTextSelected">#fff</color>
+
+    <color name="headerBackground">#57eeeeee</color>
+
+    <color name="selectedItemBackground">#aaaaaa</color>
 </resources>
