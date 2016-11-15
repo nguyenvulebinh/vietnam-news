@@ -1,84 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:pew="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pew="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data class="FeedItemDataBinding">
+
+        <variable
+            name="FIMv"
+            type="nb.cblink.vnnews.modelview.FeedItemModelView" />
+
+        <variable
+            name="newsData"
+            type="nb.cblink.vnnews.model.News" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="start|center_vertical" />
-
-        <TextView
-            android:id="@+id/adapterPositionTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="0"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="start|center_vertical" />
-
-
-        <ImageButton
-            android:id="@+id/cloneButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_filter_none_black"
-            android:tint="@color/actionButton"
-            android:layout_gravity="center_vertical"
-            style="?android:attr/borderlessButtonStyle"
-            android:contentDescription="@string/action_clone" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_clear_black"
-            android:tint="@color/actionButton"
-            android:layout_gravity="center_vertical"
-            style="?android:attr/borderlessButtonStyle"
-            android:contentDescription="@string/action_delete" />
-
-        <FrameLayout
-            android:id="@+id/refresh"
-            android:layout_width="200dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_gravity="center">
+            android:visibility="visible">
 
             <com.fmsirvent.ParallaxEverywhere.PEWImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/dragon"
+                android:src="@drawable/mu_test"
                 pew:reverse="reverseY" />
 
-
-            <com.fmsirvent.ParallaxEverywhere.PEWTextView
+            <LinearLayout
+                android:id="@+id/news_paper_bref"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|center_horizontal"
-                android:text="string/barcelona_guell"
-                android:textColor="@android:color/white" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="20dp"
+                android:weightSum="10">
 
-        </FrameLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo_dantri" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="2"
+                    android:fontFamily="sans-serif"
+                    android:text="Dân trí"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/Color_WhiteSmoke"
+                    android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="10p"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/Color_WhiteSmoke" />
+            </LinearLayout>
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/news_paper_bref"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:lines="2"
+                android:paddingBottom="10dp"
+                android:paddingEnd="50dp"
+                android:paddingStart="20dp"
+                android:text="CLB trả lương cao nhất thế giới: MU là số 1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/Color_White"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:weightSum="7.1"
+            android:background="@color/Color_White">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/news_paper_bref"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:fontFamily="serif"
+                    android:lines="4"
+                    android:paddingEnd="15dp"
+                    android:text="CLB trả lương cao nhất thế giới: MU là số 1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/Color_Black" />
+
+                <com.fmsirvent.ParallaxEverywhere.PEWImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/mu_test"
+                    pew:reverse="reverseBoth" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:lines="2"
+                android:text="Dân trí Theo công bố của tờ Daily Mail, MU chính là câu lạc bộ (CLB) trả lương cao nhất thế giới. Trong khi đó, Real Madrid chỉ xếp thứ 4 trong danh sách này.\r\nTrong mùa Hè vừa qua, MU đã đón hàng loạt cầu thủ chất lượng như Paul Pogba, Ibrahimovic, Mkhitaryan hay Eric Bailly. Sự xuất hiện của những “ông hoàng” (đặc biệt là Pogba, Ibrahimovic) khiến quỹ lương của CLB ngày một phình to hơn.  Theo công bố của tờ Daily Mail, MU đang là CLB trả lương cao nhất thế giới với trung bình 5,77 triệu bảng/người/năm (tương đương với 110.000 bảng/người/tuần). Trong giới thể thao, Quỷ đỏ là CLB trả lương cao thứ 4 sau CLB Cleveland Cavaliers (bóng rổ, 6,54 triệu bảng/người/năm), New York Yankees (bóng chày, 5,81 triệu bảng/người/năm), LA Clippers (bóng rổ, 5,78 triệu bảng/người/năm).Nên nhớ, vào năm ngoái, MU chỉ đứng thứ 6 trong danh sách này, trong khi đó, “gã hàng xóm” Man City xếp thứ 3 còn Barcelona xếp thứ 4. Dù vậy, những sự đầu tư của MU chưa mang tới kết quả như ý, khi CLB đang xếp thứ 6 ở Premier League, kém đội đầu bảng Liverpool tới 8 điểm.Cũng theo công bố của tờ Daily Mail, CLB trả lương cao thứ 2 trong giới túc cầu là Barcelona. Đội bóng xứ Catalan trả lương trung bình 5,65 triệu bảng/người/năm (tương đương 108.000 bảng/người/tuần).  Man City xếp thứ 3 với 5,42 triệu bảng/người/năm (104.000 bảng/người/tuần). Khá ngạc nhiên khi Real Madrid chỉ xếp thứ 4 với 5,05 triệu bảng/người/năm (97.000 bảng/tuần). Cần nhấn mạnh là Los Blancos vừa gia hạn hợp đồng mới với hàng loạt cầu thủ như Luke Modric, Toni Kroos, C.Ronaldo và Gareth Bale.Các vị trí khác trong top 10 lần lượt thuộc về Chelsea (4,51 triệu bảng/người/năm), PSG (4,47 triệu bảng/người/năm), Bayern Munich (4,16 triệu bảng/người/năm), Juventus (3,97 triệu bảng/người/năm), Arsenal (3,70 triệu bảng/người/năm), Liverpool (3,01 triệu bảng/người/năm).Xét theo giải đấu, Premier League là giải trả lương cao nhất với 2,438 triệu bảng/người/năm. Tiếp theo là La Liga (1,239 triệu bảng/người/năm), Serie A (1,1 triệu bảng/người/năm), Bundelsiga (1,039 triệu bảng/người/năm), Ligue 1 (728.000 bảng/người/năm)…H.Long"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/Color_Black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="20dp"
+                android:weightSum="10">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo_dantri" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="2"
+                    android:fontFamily="sans-serif"
+                    android:text="Dân trí"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/Color_DarkGray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="10p"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/Color_DarkGray" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/Color_DarkGray" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

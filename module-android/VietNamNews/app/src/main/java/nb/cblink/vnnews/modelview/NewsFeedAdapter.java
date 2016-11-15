@@ -1,6 +1,7 @@
 package nb.cblink.vnnews.modelview;
 
 import android.annotation.SuppressLint;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -16,6 +17,9 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import java.util.ArrayList;
 
 import nb.cblink.vnnews.R;
+import nb.cblink.vnnews.databinding.FeedHeaderDataBinding;
+import nb.cblink.vnnews.databinding.FeedItemDataBinding;
+import nb.cblink.vnnews.model.News;
 
 /**
  * Created by nguyenbinh on 13/10/2016.
@@ -24,33 +28,12 @@ import nb.cblink.vnnews.R;
 public class NewsFeedAdapter extends SectioningAdapter {
 
     private static final String TAG = NewsFeedAdapter.class.getSimpleName();
-    private static final boolean USE_DEBUG_APPEARANCE = false;
 
     private class Section {
         int index;
         int copyCount;
         String header;
-        String footer;
-        ArrayList<String> items = new ArrayList<>();
-
-        public Section duplicate() {
-            Section c = new Section();
-            c.index = this.index;
-            c.copyCount = this.copyCount + 1;
-            c.header = c.index + " copy " + c.copyCount;
-            c.footer = this.footer;
-            for (String i : this.items) {
-                c.items.add(i + " copy " + c.copyCount);
-            }
-
-            return c;
-        }
-
-        public void duplicateItem(int item) {
-            String itemCopy = items.get(item) + " copy";
-            items.add(item + 1, itemCopy);
-        }
-
+        ArrayList<News> items = new ArrayList<>();
     }
 
     public class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements View.OnClickListener {
@@ -58,38 +41,37 @@ public class NewsFeedAdapter extends SectioningAdapter {
         TextView adapterPositionTextView;
         ImageButton cloneButton;
         ImageButton deleteButton;
+        private FeedItemDataBinding feedItemDataBinding;
 
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
-            adapterPositionTextView = (TextView) itemView.findViewById(R.id.adapterPositionTextView);
+        public ItemViewHolder(FeedItemDataBinding feedItemDataBinding) {
+            super(feedItemDataBinding.getRoot());
+            View itemView = feedItemDataBinding.getRoot();
+            this.feedItemDataBinding = feedItemDataBinding;
+//            textView = (TextView) itemView.findViewById(R.id.textView);
+//            adapterPositionTextView = (TextView) itemView.findViewById(R.id.adapterPositionTextView);
+//
+//            cloneButton = (ImageButton) itemView.findViewById(R.id.cloneButton);
+//            cloneButton.setOnClickListener(this);
+//
+//            deleteButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
+//            deleteButton.setOnClickListener(this);
+//
+//            if (!NewsFeedAdapter.this.showModificationControls) {
+//                cloneButton.setVisibility(View.GONE);
+//                deleteButton.setVisibility(View.GONE);
+//            }
+//
+//            if (!NewsFeedAdapter.this.showAdapterPositions) {
+//                adapterPositionTextView.setVisibility(View.GONE);
+//            }
+        }
 
-            cloneButton = (ImageButton) itemView.findViewById(R.id.cloneButton);
-            cloneButton.setOnClickListener(this);
-
-            deleteButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
-            deleteButton.setOnClickListener(this);
-
-            if (!NewsFeedAdapter.this.showModificationControls) {
-                cloneButton.setVisibility(View.GONE);
-                deleteButton.setVisibility(View.GONE);
-            }
-
-            if (!NewsFeedAdapter.this.showAdapterPositions) {
-                adapterPositionTextView.setVisibility(View.GONE);
-            }
+        public FeedItemDataBinding getFeedItemDataBinding() {
+            return feedItemDataBinding;
         }
 
         @Override
         public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            final int section = NewsFeedAdapter.this.getSectionForAdapterPosition(adapterPosition);
-            final int item = NewsFeedAdapter.this.getPositionOfItemInSection(section, adapterPosition);
-            if (v == cloneButton) {
-                NewsFeedAdapter.this.onCloneItem(section, item);
-            } else if (v == deleteButton) {
-                NewsFeedAdapter.this.onDeleteItem(section, item);
-            }
         }
     }
 
@@ -99,9 +81,12 @@ public class NewsFeedAdapter extends SectioningAdapter {
         ImageButton cloneButton;
         ImageButton deleteButton;
         ImageButton collapseButton;
+        private FeedHeaderDataBinding feedHeaderDataBinding;
 
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
+        public HeaderViewHolder(FeedHeaderDataBinding feedHeaderDataBinding) {
+            super(feedHeaderDataBinding.getRoot());
+            View itemView = feedHeaderDataBinding.getRoot();
+            this.feedHeaderDataBinding = feedHeaderDataBinding;
             textView = (TextView) itemView.findViewById(R.id.textView);
             adapterPositionTextView = (TextView) itemView.findViewById(R.id.adapterPositionTextView);
 
@@ -130,6 +115,10 @@ public class NewsFeedAdapter extends SectioningAdapter {
             }
         }
 
+        public FeedHeaderDataBinding getFeedHeaderDataBinding() {
+            return feedHeaderDataBinding;
+        }
+
         void updateSectionCollapseToggle(boolean sectionIsCollapsed) {
             @DrawableRes int id = sectionIsCollapsed
                     ? R.drawable.ic_expand_more_black_24dp
@@ -140,34 +129,8 @@ public class NewsFeedAdapter extends SectioningAdapter {
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
-            final int section = NewsFeedAdapter.this.getSectionForAdapterPosition(position);
-            if (v == cloneButton) {
-                NewsFeedAdapter.this.onCloneSection(section);
-            } else if (v == deleteButton) {
-                NewsFeedAdapter.this.onDeleteSection(section);
-            } else if (v == collapseButton) {
-                NewsFeedAdapter.this.onToggleSectionCollapse(section);
-                updateSectionCollapseToggle(NewsFeedAdapter.this.isSectionCollapsed(section));
-            }
         }
     }
-
-    public class FooterViewHolder extends SectioningAdapter.FooterViewHolder {
-        TextView textView;
-        TextView adapterPositionTextView;
-
-        public FooterViewHolder(View itemView) {
-            super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
-            adapterPositionTextView = (TextView) itemView.findViewById(R.id.adapterPositionTextView);
-
-            if (!NewsFeedAdapter.this.showAdapterPositions) {
-                adapterPositionTextView.setVisibility(View.GONE);
-            }
-        }
-    }
-
 
     ArrayList<Section> sections = new ArrayList<>();
     boolean showModificationControls;
@@ -192,49 +155,12 @@ public class NewsFeedAdapter extends SectioningAdapter {
         section.copyCount = 0;
         section.header = Integer.toString(index);
 
-        if (this.hasFooters) {
-            section.footer = "End of section " + index;
-        }
-
         for (int j = 0; j < itemCount; j++) {
-            section.items.add(index + "/" + j);
+            News news = new News();
+//            section.items.add(index + "/" + j);
         }
 
         sections.add(section);
-    }
-
-    void onToggleSectionCollapse(int sectionIndex) {
-        Log.d(TAG, "onToggleSectionCollapse() called with: " + "sectionIndex = [" + sectionIndex + "]");
-        setSectionIsCollapsed(sectionIndex, !isSectionCollapsed(sectionIndex));
-    }
-
-    void onDeleteSection(int sectionIndex) {
-        Log.d(TAG, "onDeleteSection() called with: " + "sectionIndex = [" + sectionIndex + "]");
-        sections.remove(sectionIndex);
-        notifySectionRemoved(sectionIndex);
-    }
-
-    void onCloneSection(int sectionIndex) {
-        Log.d(TAG, "onCloneSection() called with: " + "sectionIndex = [" + sectionIndex + "]");
-
-        Section s = sections.get(sectionIndex);
-        Section d = s.duplicate();
-        sections.add(sectionIndex + 1, d);
-        notifySectionInserted(sectionIndex + 1);
-    }
-
-    void onDeleteItem(int sectionIndex, int itemIndex) {
-        Log.d(TAG, "onDeleteItem() called with: " + "sectionIndex = [" + sectionIndex + "], itemIndex = [" + itemIndex + "]");
-        Section s = sections.get(sectionIndex);
-        s.items.remove(itemIndex);
-        notifySectionItemRemoved(sectionIndex, itemIndex);
-    }
-
-    void onCloneItem(int sectionIndex, int itemIndex) {
-        Log.d(TAG, "onCloneItem() called with: " + "sectionIndex = [" + sectionIndex + "], itemIndex = [" + itemIndex + "]");
-        Section s = sections.get(sectionIndex);
-        s.duplicateItem(itemIndex);
-        notifySectionItemInserted(sectionIndex, itemIndex + 1);
     }
 
     @Override
@@ -253,29 +179,15 @@ public class NewsFeedAdapter extends SectioningAdapter {
     }
 
     @Override
-    public boolean doesSectionHaveFooter(int sectionIndex) {
-        return !TextUtils.isEmpty(sections.get(sectionIndex).footer);
-    }
-
-    @Override
     public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.list_item_simple_item, parent, false);
-        return new ItemViewHolder(v);
+        FeedItemDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_simple_item, parent, false);
+        return new ItemViewHolder(binding);
     }
 
     @Override
     public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.list_item_simple_header, parent, false);
-        return new HeaderViewHolder(v);
-    }
-
-    @Override
-    public FooterViewHolder onCreateFooterViewHolder(ViewGroup parent, int footerType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.list_item_simple_footer, parent, false);
-        return new FooterViewHolder(v);
+        FeedHeaderDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_item_simple_header, parent, false);
+        return new HeaderViewHolder(binding);
     }
 
     @SuppressLint("SetTextI18n")
@@ -283,8 +195,10 @@ public class NewsFeedAdapter extends SectioningAdapter {
     public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemType) {
         Section s = sections.get(sectionIndex);
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
-        ivh.textView.setText(s.items.get(itemIndex));
-        ivh.adapterPositionTextView.setText(Integer.toString(getAdapterPositionForSectionItem(sectionIndex, itemIndex)));
+        FeedItemDataBinding binding = ivh.getFeedItemDataBinding();
+//        binding.setNewsData();
+//        ivh.textView.setText(s.items.get(itemIndex));
+//        ivh.adapterPositionTextView.setText(Integer.toString(getAdapterPositionForSectionItem(sectionIndex, itemIndex)));
     }
 
     @SuppressLint("SetTextI18n")
@@ -293,39 +207,8 @@ public class NewsFeedAdapter extends SectioningAdapter {
         Section s = sections.get(sectionIndex);
         HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
         hvh.adapterPositionTextView.setText(Integer.toString(getAdapterPositionForSectionHeader(sectionIndex)));
-
-        if (USE_DEBUG_APPEARANCE) {
-            hvh.textView.setText(pad(sectionIndex * 2) + s.header);
-            viewHolder.itemView.setBackgroundColor(0x55FF9999);
-        } else {
-            hvh.textView.setText(s.header);
-        }
-
+        hvh.textView.setText(s.header);
         hvh.updateSectionCollapseToggle(isSectionCollapsed(sectionIndex));
-    }
-
-    @Override
-    public void onBindGhostHeaderViewHolder(SectioningAdapter.GhostHeaderViewHolder viewHolder, int sectionIndex) {
-        if (USE_DEBUG_APPEARANCE) {
-            viewHolder.itemView.setBackgroundColor(0xFF9999FF);
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindFooterViewHolder(SectioningAdapter.FooterViewHolder viewHolder, int sectionIndex, int footerType) {
-        Section s = sections.get(sectionIndex);
-        FooterViewHolder fvh = (FooterViewHolder) viewHolder;
-        fvh.textView.setText(s.footer);
-        fvh.adapterPositionTextView.setText(Integer.toString(getAdapterPositionForSectionFooter(sectionIndex)));
-    }
-
-    private String pad(int spaces) {
-        StringBuilder b = new StringBuilder();
-        for (int i = 0; i < spaces; i++) {
-            b.append(' ');
-        }
-        return b.toString();
     }
 
 }
