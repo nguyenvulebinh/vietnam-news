@@ -10,5 +10,6 @@
         android:id="@+id/action_radio"
         android:orderInCategory="100"
         android:icon="@drawable/radio_icon"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:title="Radio" />
 </menu>

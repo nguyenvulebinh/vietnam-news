@@ -4,9 +4,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.yalantis.phoenix.PullToRefreshView;
 
 import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.databinding.NewsFeedDataBinding;
@@ -21,7 +24,7 @@ public class NewsFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NewsFeedDataBinding binding = DataBindingUtil.inflate(inflater, R.layout.frag_news_feeds, container, false);
         layout = binding.getRoot();
-        modelView = new NewsFeedModelView(layout.getContext());
+        modelView = new NewsFeedModelView(layout.getContext(), (RecyclerView) layout.findViewById(R.id.recycleview), (PullToRefreshView) layout.findViewById(R.id.pull_to_refresh));
         binding.setNFmv(modelView);
         return layout;
     }

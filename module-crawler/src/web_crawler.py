@@ -229,7 +229,8 @@ if __name__ == "__main__":
         "http://vietbao.vn/vn/rss",
         "http://vnexpress.net/rss",
         "http://dantri.com.vn/rss",
-        "http://vtv.vn/rss"
+        "http://vtv.vn/rss",
+        "http://techtalk.vn/"
     ]
     web_mannual_page_links = [
         # "vtv.vn"  ,
@@ -242,8 +243,8 @@ if __name__ == "__main__":
     max_count_web_domain = max_count_web/(rss_page_links.__len__() + web_mannual_page_links.__len__())
 
     # Cai dat bo loc crawl web
-    Web_filter.set_last_time("2016-10-26, 22:20:08+07:00")  # Bai viet moi hon ke tu thoi diem xxx
-    Web_filter.set_limit_time("2016-10-26, 22:20:08+07:00", "2016-10-26, 23:20:08+07:00")  # Bai viet trong khoang tg
+    # Web_filter.set_last_time("2016-10-26, 22:20:08+07:00")  # Bai viet moi hon ke tu thoi diem xxx
+    # Web_filter.set_limit_time("2016-10-26, 22:20:08+07:00", "2016-10-26, 23:20:08+07:00")  # Bai viet trong khoang tg
     Web_filter.set_max_count_web_each_domain(10000)  # moi domain khong vuot qua 1000
     Web_filter.set_max_count_web_each_sublabel(100)  # moi label trong 1 domain k vuot qua 100
 
