@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pew="http://schemas.android.com/apk/res-auto">
+    xmlns:pew="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
     <data class="FeedItemDataBinding">
 
+        <import type="android.view.View" />
         <variable
             name="FIMv"
             type="nb.cblink.vnnews.modelview.FeedItemModelView" />
@@ -20,16 +22,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:visibility="visible">
+            android:layout_height="250dp"
+            android:visibility="@{newsData.firstNews? View.VISIBLE:View.GONE}">
 
             <com.fmsirvent.ParallaxEverywhere.PEWImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/mu_test"
-                pew:reverse="reverseY" />
+                app:imageUrl="@{newsData.imageUrl}"
+                android:background="@color/finestGray20"
+                pew:reverse="reverseY"
+                pew:block_parallax_x="true" />
 
             <LinearLayout
                 android:id="@+id/news_paper_bref"
@@ -57,7 +61,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_weight="2"
                     android:fontFamily="sans-serif"
-                    android:text="Dân trí"
+                    android:text="@{newsData.paperName}"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/Color_WhiteSmoke"
                     android:textStyle="bold" />
@@ -83,7 +87,7 @@
                 android:paddingBottom="10dp"
                 android:paddingEnd="50dp"
                 android:paddingStart="20dp"
-                android:text="CLB trả lương cao nhất thế giới: MU là số 1"
+                android:text="@{newsData.newsTitle}"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/Color_White"
                 android:textStyle="bold" />
@@ -93,15 +97,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="@{newsData.firstNews? View.GONE:View.VISIBLE}"
             android:weightSum="7.1"
             android:background="@color/Color_White">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_weight="4"
                 android:orientation="horizontal">
 
@@ -109,12 +114,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/news_paper_bref"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:ellipsize="end"
                     android:fontFamily="serif"
-                    android:lines="4"
+                    android:lines="3"
                     android:paddingEnd="15dp"
-                    android:text="CLB trả lương cao nhất thế giới: MU là số 1"
+                    android:text="@{newsData.newsTitle}"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/Color_Black" />
 
@@ -122,10 +127,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
+                    android:layout_weight="2"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/mu_test"
+                    app:imageUrl="@{newsData.imageUrl}"
+                    android:background="@color/finestGray20"
                     pew:reverse="reverseBoth" />
             </LinearLayout>
 
@@ -133,14 +138,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_weight="2"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif"
                 android:lines="2"
-                android:text="Dân trí Theo công bố của tờ Daily Mail, MU chính là câu lạc bộ (CLB) trả lương cao nhất thế giới. Trong khi đó, Real Madrid chỉ xếp thứ 4 trong danh sách này.\r\nTrong mùa Hè vừa qua, MU đã đón hàng loạt cầu thủ chất lượng như Paul Pogba, Ibrahimovic, Mkhitaryan hay Eric Bailly. Sự xuất hiện của những “ông hoàng” (đặc biệt là Pogba, Ibrahimovic) khiến quỹ lương của CLB ngày một phình to hơn.  Theo công bố của tờ Daily Mail, MU đang là CLB trả lương cao nhất thế giới với trung bình 5,77 triệu bảng/người/năm (tương đương với 110.000 bảng/người/tuần). Trong giới thể thao, Quỷ đỏ là CLB trả lương cao thứ 4 sau CLB Cleveland Cavaliers (bóng rổ, 6,54 triệu bảng/người/năm), New York Yankees (bóng chày, 5,81 triệu bảng/người/năm), LA Clippers (bóng rổ, 5,78 triệu bảng/người/năm).Nên nhớ, vào năm ngoái, MU chỉ đứng thứ 6 trong danh sách này, trong khi đó, “gã hàng xóm” Man City xếp thứ 3 còn Barcelona xếp thứ 4. Dù vậy, những sự đầu tư của MU chưa mang tới kết quả như ý, khi CLB đang xếp thứ 6 ở Premier League, kém đội đầu bảng Liverpool tới 8 điểm.Cũng theo công bố của tờ Daily Mail, CLB trả lương cao thứ 2 trong giới túc cầu là Barcelona. Đội bóng xứ Catalan trả lương trung bình 5,65 triệu bảng/người/năm (tương đương 108.000 bảng/người/tuần).  Man City xếp thứ 3 với 5,42 triệu bảng/người/năm (104.000 bảng/người/tuần). Khá ngạc nhiên khi Real Madrid chỉ xếp thứ 4 với 5,05 triệu bảng/người/năm (97.000 bảng/tuần). Cần nhấn mạnh là Los Blancos vừa gia hạn hợp đồng mới với hàng loạt cầu thủ như Luke Modric, Toni Kroos, C.Ronaldo và Gareth Bale.Các vị trí khác trong top 10 lần lượt thuộc về Chelsea (4,51 triệu bảng/người/năm), PSG (4,47 triệu bảng/người/năm), Bayern Munich (4,16 triệu bảng/người/năm), Juventus (3,97 triệu bảng/người/năm), Arsenal (3,70 triệu bảng/người/năm), Liverpool (3,01 triệu bảng/người/năm).Xét theo giải đấu, Premier League là giải trả lương cao nhất với 2,438 triệu bảng/người/năm. Tiếp theo là La Liga (1,239 triệu bảng/người/năm), Serie A (1,1 triệu bảng/người/năm), Bundelsiga (1,039 triệu bảng/người/năm), Ligue 1 (728.000 bảng/người/năm)…H.Long"
+                android:text="@{newsData.content}"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/Color_Black" />
 
@@ -168,7 +173,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_weight="2"
                     android:fontFamily="sans-serif"
-                    android:text="Dân trí"
+                    android:text="@{newsData.paperName}"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/Color_DarkGray" />
 
@@ -185,10 +190,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.2dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="@{newsData.lastNews}"
                 android:background="@color/Color_DarkGray" />
         </LinearLayout>
     </RelativeLayout>

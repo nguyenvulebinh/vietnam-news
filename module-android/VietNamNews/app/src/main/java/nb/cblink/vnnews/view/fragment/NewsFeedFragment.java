@@ -14,6 +14,7 @@ import com.yalantis.phoenix.PullToRefreshView;
 import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.databinding.NewsFeedDataBinding;
 import nb.cblink.vnnews.modelview.NewsFeedModelView;
+import nb.cblink.vnnews.view.activity.MainActivity;
 
 public class NewsFeedFragment extends Fragment {
     NewsFeedModelView modelView;
@@ -24,7 +25,7 @@ public class NewsFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NewsFeedDataBinding binding = DataBindingUtil.inflate(inflater, R.layout.frag_news_feeds, container, false);
         layout = binding.getRoot();
-        modelView = new NewsFeedModelView(layout.getContext(), (RecyclerView) layout.findViewById(R.id.recycleview), (PullToRefreshView) layout.findViewById(R.id.pull_to_refresh));
+        modelView = new NewsFeedModelView((MainActivity) getActivity(), (RecyclerView) layout.findViewById(R.id.recycleview), (PullToRefreshView) layout.findViewById(R.id.pull_to_refresh));
         binding.setNFmv(modelView);
         return layout;
     }

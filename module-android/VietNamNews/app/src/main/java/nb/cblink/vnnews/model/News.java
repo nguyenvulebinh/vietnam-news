@@ -1,32 +1,49 @@
 package nb.cblink.vnnews.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.view.View;
+
 /**
  * Created by nguyenbinh on 14/11/2016.
  */
 
-public class News {
-    private String url;
-    private String image;
+public class News extends BaseObservable {
+    private String newsUrl;
+    @Bindable
+    private String imageUrl;
+    @Bindable
     private String paperName;
     private int paperImage;
+    @Bindable
+    private String newsTitle;
     private String time;
     private int type;
+    @Bindable
     private String content;
+    @Bindable
+    private boolean firstNews;
+    @Bindable
+    private int lastNews;
 
-    public String getUrl() {
-        return url;
+    public News() {
+        lastNews = View.VISIBLE;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public String getNewsUrl() {
+        return newsUrl;
     }
 
-    public String getImage() {
-        return image;
+    public void setNewsUrl(String newsUrl) {
+        this.newsUrl = newsUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getPaperName() {
@@ -61,5 +78,35 @@ public class News {
         this.type = type;
     }
 
+    public String getContent() {
+        return content;
+    }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getNewsTitle() {
+        return newsTitle;
+    }
+
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
+    }
+
+    public boolean isFirstNews() {
+        return firstNews;
+    }
+
+    public void setFirstNews(boolean firstNews) {
+        this.firstNews = firstNews;
+    }
+
+    public int getLastNews() {
+        return lastNews;
+    }
+
+    public void setLastNews(int lastNews) {
+        this.lastNews = lastNews;
+    }
 }
