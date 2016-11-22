@@ -70,10 +70,10 @@ class Solr_helper:
 def crawl_data():
     max_count_web = 500
     rss_page_links = [
-        # "http://vietbao.vn/vn/rss",
-        # "http://vnexpress.net/rss",
-        # "http://dantri.com.vn/rss",
-        # "http://vtv.vn/rss",
+        #"http://vietbao.vn/vn/rss",
+        #"http://vnexpress.net/rss",
+        "http://dantri.com.vn/rss",
+        #"http://vtv.vn/rss",
         "http://techtalk.vn/"
     ]
     web_mannual_page_links = [
@@ -98,17 +98,20 @@ def crawl_data():
 
     if data.__len__() > 1:
         data = data[:-1]+"]"
-        solr = Solr_helper(db_name="testBTL")
+        solr = Solr_helper(db_name="btl-tktdtt")
         solr.set_solr_home("/mnt/01CDF1ECE3AB4280/DH/NAM_5/Ki_1/TimkiemTrinhDien/BTL/solr-6.2.1")
 
         print (solr.update(data))
         print (solr.reload())
 
-
+def query():
+    # http://localhost:8983/solr/btl-tktdtt/select?indent=on&q=*:*&wt=json	
+    # http://localhost:8983/solr/btl-tktdtt/select?q=*:*&sort=dist(0,%2010,%2010)%20desc
+    # http://localhost:8983/solr/btl-tktdtt/select?q=title:Thiên thần+url:thien-than
 
 
 if __name__ =="__main__":
-    solr =  Solr_helper( db_name = "testBTL")
+    solr =  Solr_helper( db_name = "btl-tktdtt")
     solr.set_solr_home("/mnt/01CDF1ECE3AB4280/DH/NAM_5/Ki_1/TimkiemTrinhDien/BTL/solr-6.2.1")
     # # solr.update("/mnt/01CDF1ECE3AB4280/DH/NAM_5/Ki_1/TimkiemTrinhDien/BTL/vietnam-news/data-train/techtalk/Cong\ nghe/31fa871c7d521106e28c45f567a63445c33e1186.json")
     #
