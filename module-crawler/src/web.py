@@ -24,14 +24,15 @@ class web(web_simple, label_general):
 
     # phuong thuc khoi tao
     def __init__(self, url, image_url, title, content, labels, date=None):
-
-        # khoi tao cha
+        # khoi tao web_simple
         web_simple.__init__(self, url, image_url, title, date)
-        label_general.__init__(self, labels)
 
         # cai dat thuoc tinh
         self.content = content
         self.labels = labels
+
+        # khoi tao label_general
+        label_general.__init__(self, self.get_labels(1))
 
     def get_content(self):
         """ lay noi dung trang """

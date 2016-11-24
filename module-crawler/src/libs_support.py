@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+import string
+import re
 import requests
 from bs4 import BeautifulSoup
 import sys  
@@ -188,6 +192,18 @@ def get_content_paper(url):
     return content_paper
 
 
+
+INTAB = "ạảãàáâậầấẩẫăắằặẳẵóòọõỏôộổỗồốơờớợởỡéèẻẹẽêếềệểễúùụủũưựữửừứíìịỉĩýỳỷỵỹđ"
+INTAB = [ch.encode('utf8') for ch in unicode(INTAB, 'utf8')]
+
+OUTTAB = "a"*17 + "o"*17 + "e"*11 + "u"*11 + "i"*5 + "y"*5 + "d"
+
+r = re.compile("|".join(INTAB))
+replaces_dict = dict(zip(INTAB, OUTTAB))
+
+def khong_dau(utf8_str):
+    return r.sub(lambda m: replaces_dict[m.group(0)], utf8_str)
+
 # 
 #
 #
@@ -199,6 +215,7 @@ def get_content_paper(url):
 #
 if __name__ == "__main__":
     print "Hello World"
+    print khong_dau("một ngày đẹp trời ")
     content_paper = get_content_paper("http://kenh14.vn/truoc-gary-thanh-vien-nay-cung-de-lai-nhieu-tiec-nuoi-khi-chia-tay-running-man-2016102716283767.chn")
     print content_paper["labels"]
     print  content_paper["content_text"] 
