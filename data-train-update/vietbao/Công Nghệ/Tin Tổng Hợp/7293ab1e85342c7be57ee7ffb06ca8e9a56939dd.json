@@ -1,0 +1,10 @@
+{
+    "domain": "vietbao.vn",
+    "code": "7293ab1e85342c7be57ee7ffb06ca8e9a56939dd",
+    "title": "Lộ diện hình ảnh trụ sở \"siêu pháo đài\" mới của Apple",
+    "url": "http://vietbao.vn/Cong-nghe/Lo-dien-hinh-anh-tru-so-sieu-phao-dai-moi-cua-Apple/165307830/217/",
+    "labels": "vietbao/Công Nghệ/Tin Tổng Hợp",
+    "content": "Video mới, được ghi lại bởi người dùng YouTube, Sexton Videography, cho thấy kiến trúc Apple Campus 2 đã gần hoàn thiện.Một vài video clip do máy bay không người lái ghi lại đã quay được quang cảnh công trường xây dựng trụ sở văn phòng hình phi thuyền của Apple, Apple Campus 2, song đây là video được cho là có chất lượng tốt nhất từ trước đến nay.Video mới, được ghi lại bởi người dùng YouTube, Sexton Videography, cho thấy kiến trúc Apple Campus 2 đã gần hoàn thiện, hầu hết các tấm pin quang điện và tường đã được lắp đặt vào đúng vị trí của nó.Nhìn từ khối kiến trúc chính hình tròn, đến khu khán phòng dưới lòng đất giống hình một chiếc đĩa bay, hay khu đỗ xe khổng lồ sức chứa 20.000 chiếc, đã rõ là khối tổ hợp chạy năng lượng mặt trời này là một thành phố tự cung cấp năng lượng và một khu pháo đài kiên cố.   console.log(\"run here - jadsVideo-vb-583d2c8109471 - \",Date());    document.addEventListener(\"DOMContentLoaded\", function(){  console.log(\"ready - jadsVideo-vb-583d2c8109471 -\",Date());  setTimeout(function(){  console.log(\"init video - jadsVideo-vb-583d2c8109471 -\",Date()); $(\".jadsVideo-vb-583d2c8109471\").jadsVideo({ file: 'http://115.146.122.132:555/videos/vni99/165/2016/11/20161129-lo-dien-hinh-anh-tru-so-sieu-phao-dai-moi-cua-apple-176891.mp4', poster: '', title: 'Lộ diện hình ảnh trụ sở \\\"siêu pháo đài\\\" mới của Apple' }); },500);  }); Thu Hà theo Mashable",
+    "image_url": "",
+    "date": "2016-11-29, 10:21:39+07:00"
+}

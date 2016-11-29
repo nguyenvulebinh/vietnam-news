@@ -1,0 +1,11 @@
+{
+    "domain": "techtalk.vn",
+    "code": "b09817d7c7df49cb161b9a5b3f02713178081b8a",
+    "title": "Speech to text trong Android",
+    "url": "http://techtalk.vn/speech-to-text-trong-android.html",
+    "labels": "techtalk/Cong nghe",
+    "content": "Giới thiệuHôm nay, như tiêu đề đã ghi rõ, mình sẽ giới thiệu tới tất cả mọi người về 1 chức năng rất hay của Android. Đó là speech to text. Chức năng này mới nghe thì tưởng chừng rất khó, nhưng thật ra nó chỉ hơi khó thôi :)) Và chúng ta hoàn toàn có thể đưa chức năng này vào app của riêng mình để làm phong phú thêm cho các chức năng.Và ngay bây h chúng ta sẽ bắt đầu tìm hiểu cách thức xây dựng nên chức năng này.Hướng dẫn source code:Cuối cùng là file MainActivityTechtalk via Viblo",
+    "image_url": "",
+    "date": "2016-11-27, 12:00:47+00:00",
+    "label_general": "Khoa học - Công nghệ"
+}
