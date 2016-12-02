@@ -46,7 +46,7 @@ def get_content(url):
         r.close()
         return r.text#.encode('utf-8', 'inorge')
     except:
-        print('Exception'+ str(e))
+        # print('Exception'+ str(e))
         return None
 
 
