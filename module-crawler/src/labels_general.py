@@ -6,6 +6,7 @@
 # Chuyen hoa ve dang dictionary
 g_map_label_domain = {
     "Khoa học - Công nghệ":[
+        "vietbao/Khoa Học",
         "Dân trí/Khoa học - Công nghệ",
         "Dân trí/Sức mạnh số",
         "vietbao/Công Nghệ", 
@@ -15,6 +16,7 @@ g_map_label_domain = {
         "vnexpress/Số hóa"
     ],
     "Kinh tế":[
+        "vietbao/Kinh Tế",
         "vtv/Kinh tế",
         "vnexpress/Kinh doanh",
         "Dân trí/Kinh doanh"
@@ -26,9 +28,13 @@ g_map_label_domain = {
         "vnexpress/Giáo dục"
     ],
     "Du lịch":[
+        "vietbao/Du Lịch",
+        "vietbao/Khám Phá Việt Nam",
         "vnexpress/Du lịch"
     ],
     "Thời sự":[
+        "vietbao/Phóng Sự",
+        "vietbao/Thế Giới",
         "vnexpress/Thế giới",
         "vtv/Truyền hình",
         "vtv/Trong nước",
@@ -41,10 +47,12 @@ g_map_label_domain = {
         "Dân trí/Việc làm"
     ],
     "Xe":[
+        "vietbao/Xe",
         "Dân trí/Ô tô - Xe máy",
         "vnexpress/Xe"
     ],
     "Pháp luật":[
+        "vietbao/An Ninh - Pháp Luật",
         "Dân trí/Pháp luật",
         "vnexpress/Pháp luật"
     ],
@@ -59,11 +67,16 @@ g_map_label_domain = {
         "vnexpress/Thể thao"
     ],
     "Sức khỏe":[
+        "vietbao/Sức Khỏe",
         "Dân trí/Sức khỏe",
         "vtv/Sức khỏe",
         "vnexpress/Sức khỏe"
     ],
     "Giải trí":[
+        "vietbao/Game",
+        "vietbao/Media",
+        "vietbao/Thế Giới Giải Trí",
+        "vietbao/Cười",
         "vnexpress/Giải trí",
         "Dân trí/Giải trí",
         "vnexpress/Cười",
@@ -72,6 +85,14 @@ g_map_label_domain = {
 
     ],
     "Đời sống - Xã hội": [
+        "vietbao/Nhà Đất",
+        "vietbao/Blog Hay",
+        "vietbao/Đời Sống - Gia Đình",
+        "vietbao/Xã Hội",
+        "vietbao/Văn Hóa",
+        "vietbao/Sống Đẹp",
+        "vietbao/Nhịp Sống Trẻ",
+        "vietbao/Người Việt Bốn Phương",
         "Dân trí/Tình yêu - Giới tính",
         "Dân trí/Xã hội",
         "Dân trí/Nhịp sống trẻ",
