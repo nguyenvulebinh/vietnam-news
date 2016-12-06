@@ -1,0 +1,11 @@
+{
+    "domain": "techtalk.vn",
+    "code": "3cb2f1aad598abe718dd82315b80d91e70fbeec2",
+    "title": "5 thủ thuật cực kỳ hữu ích khi làm Responsive Website",
+    "url": "http://techtalk.vn/5-thu-thuat-huu-ich-khi-lam-responsive-website.html",
+    "labels": "techtalk/Cong nghe",
+    "content": "Trang web tjkdesign đã có một bài viết chi tiết về thủ thuật này, bạn có thể xem ở đây. Thủ thuật này làm cho các video nhúng trong trang web có chiều rộng mở rộng ra 2 bên đến sát hai đường biên.Max Width ContainerThuộc tính max-width cho phép ta thiết lập chiều rộng tối đa của element, có tác dụng không cho element chèn ra ngoài phạm vi cần thiết.Responsive ImageTa có thể làm cho các hình ảnh trên trang web tự động điều chỉnh kích thước bằng chiều rộng tối đa của đường biên bằng cách sau:Min WidthThuộc tính min-width thiết lập chiều rộng nhỏ nhất của element. Trong ví dụ sau, ta dùng min-width cho trường input không để chiều rộng của input bị quá nhỏKhi làm Responsive website, nếu ta biết khi nào nên sử dụng giá trị tương đối sẽ tối giản việc viết CSS và tối ưu hóa hiển thị của trang web.Relative Font SizeKhi ta dùng đợn vị em hoặc % cho font-size, line-height và khoảng cách margin sẽ được thừa kế từ parent element. Ví dụ: Ta có thể thay đổi font size của các child element bằng cách thay đổi font-size của parent element.Relative PaddingHình minh họa dưới đây cho thấy sử dụng giá trị padding bằng đơn vị % thay cho giá trị px là một cách tối ưu hơn. Phần tử bền trái không được cân đối như phần tử bên phải.Ta có thể loại bỏ ảnh hưởng của thuộc tính float của element trước bằng cách sử dụng áp dụng khai báo overflow: hidden cho nội dung ở sau:Trong trường hợp text trên trang web quá dài gây vỡ layout, ta có thể sử dụng thuộc tính word-wrap để loại bỏ điều này.Techtalk via Viblo\n",
+    "image_url": "",
+    "date": "2016-11-28, 07:45:52+00:00",
+    "label_general": "Khoa học - Công nghệ"
+}

@@ -227,10 +227,10 @@ if __name__ == "__main__":
     max_count_web = 500
     rss_page_links = [
         "http://vietbao.vn/vn/rss",
-        "http://vnexpress.net/rss",
-        "http://dantri.com.vn/rss",
-        "http://vtv.vn/rss",
-        "http://techtalk.vn/"
+        # "http://vnexpress.net/rss",
+        # "http://dantri.com.vn/rss",
+        # "http://vtv.vn/rss",
+        # "http://techtalk.vn/"
     ]
     web_mannual_page_links = [
         # "vtv.vn"  ,
@@ -246,8 +246,7 @@ if __name__ == "__main__":
     # Web_filter.set_last_time("2016-10-26, 22:20:08+07:00")  # Bai viet moi hon ke tu thoi diem xxx
     # Web_filter.set_limit_time("2016-10-26, 22:20:08+07:00", "2016-10-26, 23:20:08+07:00")  # Bai viet trong khoang tg
     Web_filter.set_max_count_web_each_domain(10000)  # moi domain khong vuot qua 1000
-    Web_filter.set_max_count_web_each_sublabel(100)  # moi label trong 1 domain k vuot qua 100
-
+    Web_filter.set_max_count_web_each_sublabel(1)  # moi label trong 1 domain k vuot qua 100
 
 
     # Cac trang ko co rss
@@ -259,13 +258,16 @@ if __name__ == "__main__":
     #          web_x.get_json()
             
     # Cac trang co rss
+    dict_label = {}
     for link_rss in rss_page_links:
         parser = rss_parser(link_rss)
         for web_x in  parser.get_list_web():
-            #web_x.write_to_file('Data')
+            # web_x.write_to_file('/mnt/01CDF1ECE3AB4280/DH/NAM_5/Ki_1/TimkiemTrinhDien/BTL/vietnam-news/data-train')
             # print('----------------------')
             # print('Push data to DB')
             # print('----------------------')
-            # #web_x.insert_to_db(db)
-             print (web_x.get_json())
-
+            #web_x.insert_to_db(db)
+            # print (web_x.get_json())
+            print web_x.get_label_general()
+            # print (web_x.get_labels(1))
+            

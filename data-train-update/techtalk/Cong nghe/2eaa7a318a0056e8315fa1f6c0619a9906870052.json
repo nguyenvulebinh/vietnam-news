@@ -1,0 +1,11 @@
+{
+    "domain": "techtalk.vn",
+    "code": "2eaa7a318a0056e8315fa1f6c0619a9906870052",
+    "title": "Thủ thuật mới sử dụng công nghệ Machine Learning của Google Translate",
+    "url": "http://techtalk.vn/thu-thuat-moi-su-dung-cong-nghe-machine-learning-cua-google-translate.html",
+    "labels": "techtalk/Cong nghe",
+    "content": "Thủ thuật dịch mới của Google, với tên gọi “zero-shot” translation có thể tự động dịch nhiều cặp ngôn ngữ mới.Google Neural Machine Translation (GNMT) – ra mắt lần đầu tiên vào vào tháng 9 – là 1 hệ thống mới hỗ trợ cho Google Translate, được xây dựng dựa trên neutral network. Neutral network là 1 dạng hệ thống máy tính mô phỏng bộ não người, có thể “học” được từ các hành động trong quá khứ để giải quyết các vấn đề mới mà không cần phải được lập trình cụ thể.Tuy Google từng đê cập đến về khả năng dịch đã được cải thiện mức độ chính xác nhờ vào Machine Learning, nhưng Google Translate mới thậm chí còn dịch được từ ngôn ngữ này trong ngôn ngữ kia dù cả 2 ngôn ngữ chưa được hệ thống ghép cặp trước đó.Bài viết trên trang blog Google Research  hôm 22/11 vừa rồi cho biết:“Chúng ta có 1 hệ thống đã ngôn ngữ với các ví dụ từ tiếng Nhật sang tiếng Anh và từ tiếng Hàn sang tiếng Anh… [GNMT] chia sẻ các parameters để dịch giữa 4 cặp ngôn ngữ khác nhau này…  Nó có thể trả về những đoạn dịch hợp lý từ tiếng Hàn sang tiếng Nhật dù GNMT chưa được hướng dẫn trước đó. Theo những gì chúng tôi được biết, đây là lần đầu tiên hình thức transfer learning hoạt động trong Machine Translation”TopDev Techtalk #52: Công nghệ của tương lai: Đột phá gì từ Machine Learning?*Hồ Chí Minh: 18h00 – 21h00 ngày 02/12/2016.Thực ra, đây chỉ là 1 trong những bước đi của Google để tiếp cận gần hơn với Trí thông minh nhân tạo. Đầu năm nay, tương tự như Siri của Apple và Alexa của Amazon, Google cũng đã tiết lộ trợ lý ảo riêng của mình. Người dùng hiện đã có thể sử dụng hình thức cải tiến mới của Google Translate.Nguồn: Techtalk via CNET",
+    "image_url": "",
+    "date": "2016-11-28, 01:00:21+00:00",
+    "label_general": "Khoa học - Công nghệ"
+}

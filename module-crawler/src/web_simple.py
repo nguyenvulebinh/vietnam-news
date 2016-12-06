@@ -3,6 +3,8 @@
 # and open the template in the editor.
 
 import hashlib
+import re
+
 from dateutil import parser as dateutil_parser  # install: pip install python-dateutil
 
 class web_simple:
@@ -15,6 +17,11 @@ class web_simple:
         self.url = url
         self.title = title
         self.code = hashlib.sha1(self.url).hexdigest()
+        domain = re.search('(?<=http://)[^/]+', url)
+        if domain != None:
+            self.domain = domain.group(0)
+        else:
+            self.domain = "Unknow"
 
         date_tmp = ""
         if date != None and date.__len__() > 0:
@@ -41,3 +48,6 @@ class web_simple:
 
     def get_date_string(self):
         return self.date
+
+    def get_domain(self):
+        return self.domain
