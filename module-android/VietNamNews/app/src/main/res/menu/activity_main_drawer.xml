@@ -6,33 +6,38 @@
             android:id="@+id/nav_news_feed"
             android:icon="@drawable/news_feed_icon"
             android:title="@string/news_feed" />
+        <item
+            android:id="@+id/nav_book_mark"
+            android:icon="@drawable/nav_bookmark"
+            android:title="@string/book_mark" />
     </group>
 
-    <item android:title="@string/category">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="@string/culture" />
-                <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="@string/entertainment" />
-                <item
-                    android:id="@+id/nav_manage"
-                    android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/sport" />
-                <item
-                    android:id="@+id/nav_gallery"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/technology" />
-                <item
-                    android:id="@+id/nav_slideshow"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/science" />
-            </group>
-        </menu>
-    </item>
+    <!--<item android:title="@string/category">-->
+    <!--<menu>-->
+    <!--<group android:checkableBehavior="single"-->
+    <!--android:id="@+id/list_tocpic">-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_share"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_share"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/culture" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_send"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_send"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/entertainment" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_manage"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_manage"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/sport" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_gallery"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_slideshow"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/technology" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<item&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/nav_slideshow"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:icon="@drawable/ic_menu_slideshow"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:title="@string/science" />&ndash;&gt;-->
+    <!--</group>-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>

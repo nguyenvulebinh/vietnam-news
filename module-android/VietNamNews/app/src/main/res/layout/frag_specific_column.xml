@@ -13,9 +13,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Specific Category" />
+        <com.yalantis.phoenix.PullToRefreshView
+            android:id="@+id/pull_to_refresh_column"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleview_column"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" />
+        </com.yalantis.phoenix.PullToRefreshView>
     </LinearLayout>
 </layout>

@@ -1,20 +1,21 @@
 package nb.cblink.vnnews.modelview;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
+
+import com.google.firebase.database.DatabaseReference;
 
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import nb.cblink.vnnews.R;
+import nb.cblink.vnnews.data.DataFactory;
 import nb.cblink.vnnews.data.TestListData;
 import nb.cblink.vnnews.databinding.FeedHeaderDataBinding;
 import nb.cblink.vnnews.databinding.FeedItemDataBinding;
@@ -29,8 +30,14 @@ public class NewsFeedAdapter extends SectioningAdapter {
 
     private static final String TAG = NewsFeedAdapter.class.getSimpleName();
     private MainActivity context;
-    ArrayList<FeedTopic> data;
     private Window window;
+    private static final String[] colors = {
+            "F44336", "E91E63", "00BCD4", "4CAF50", "9C27B0", "673AB7",
+            "FF5722", "3F51B5",
+            "2196F3", "795548", "607D8B", "009688",
+            "8BC34A", "FFEB3B", "FFC107", "FF9800", "03A9F4", "9E9E9E", "CDDC39"};
+    private Random getIndexColor;
+    DatabaseReference mFirebaseDatabaseReference;
 
     public class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements View.OnClickListener {
         private FeedItemDataBinding feedItemDataBinding;
@@ -67,21 +74,22 @@ public class NewsFeedAdapter extends SectioningAdapter {
     }
 
 
-    public NewsFeedAdapter(MainActivity activity, Window window) {
-        data = TestListData.getData();
+    public NewsFeedAdapter(MainActivity activity, Window window, DatabaseReference mFirebaseDatabaseReference) {
+        this.mFirebaseDatabaseReference = mFirebaseDatabaseReference;
         this.context = activity;
         this.window = window;
+        getIndexColor = new Random();
     }
 
     @Override
     public int getNumberOfSections() {
-        return data.size();
+        return DataFactory.getInstance().data.size();
     }
 
     @Override
     public int getNumberOfItemsInSection(int sectionIndex) {
         try {
-            return data.get(sectionIndex).getListNews().size();
+            return DataFactory.getInstance().data.get(sectionIndex).getListNews().size() > 10 ? 10 : DataFactory.getInstance().data.get(sectionIndex).getListNews().size();
         } catch (Exception e) {
             return 0;
         }
@@ -108,22 +116,26 @@ public class NewsFeedAdapter extends SectioningAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemType) {
-        FeedTopic s = data.get(sectionIndex);
+        FeedTopic s = DataFactory.getInstance().data.get(sectionIndex);
         ItemViewHolder ivh = (ItemViewHolder) viewHolder;
         FeedItemDataBinding binding = ivh.getFeedItemDataBinding();
         if (itemIndex == s.getListNews().size() - 1)
             s.getListNews().get(itemIndex).setLastNews(View.INVISIBLE);
-        binding.setNewsData(s.getListNews().get(itemIndex));
+        if (itemIndex < s.getListNews().size()) {
+            binding.setNewsData(s.getListNews().get(itemIndex));
+            binding.setFIMv(new FeedItemModelView());
+        }
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindHeaderViewHolder(SectioningAdapter.HeaderViewHolder viewHolder, int sectionIndex, int headerType) {
-        FeedTopic s = data.get(sectionIndex);
-        s.setColorTopic(0xdf00a394 + (sectionIndex - 1) * 0x0a000);
+        FeedTopic s = DataFactory.getInstance().data.get(sectionIndex);
+        s.setColorTopic(0xdf000000 + Integer.parseInt(colors[sectionIndex], 16));
         HeaderViewHolder hvh = (HeaderViewHolder) viewHolder;
         FeedHeaderDataBinding binding = hvh.getFeedHeaderDataBinding();
         binding.setFTp(s);
+        binding.setFHMv(new FeedHeaderModelView());
         binding.getRoot().setTag(s);
     }
 }

@@ -23,6 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:onClick="@{(v) -> FIMv.showWebNews(v, newsData.newsUrl)}"
             android:visibility="@{newsData.firstNews? View.VISIBLE:View.GONE}">
 
             <com.fmsirvent.ParallaxEverywhere.PEWImageView
@@ -52,15 +53,17 @@
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/logo_dantri" />
+                    android:src="@{newsData.paperImage}" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="15dp"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:fontFamily="sans-serif"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:text="@{newsData.paperName}"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/Color_WhiteSmoke"
@@ -71,10 +74,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="10p"
+                    android:layout_weight="4.5"
+                    android:text="@{newsData.time}"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/Color_WhiteSmoke" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="25dp"
+                    android:layout_gravity="end"
+                    android:onClick="@{() -> FIMv.clickBookmark(newsData)}"
+                    android:src="@{newsData.mark? @drawable/bookmark_select:@drawable/bookmark}"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <TextView
@@ -98,7 +110,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="@{newsData.firstNews? View.GONE:View.VISIBLE}"
-            android:weightSum="7.1"
+            android:weightSum="7.8"
             android:background="@color/Color_White">
 
             <LinearLayout
@@ -107,7 +119,8 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_weight="4"
+                android:layout_weight="4.5"
+                android:onClick="@{(v) -> FIMv.showWebNews(v, newsData.newsUrl)}"
                 android:orientation="horizontal">
 
                 <TextView
@@ -138,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
                 android:layout_weight="2"
@@ -152,7 +165,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="10dp"
@@ -164,15 +177,17 @@
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/logo_dantri" />
+                    android:src="@{newsData.paperImage}" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="15dp"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:fontFamily="sans-serif"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:text="@{newsData.paperName}"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/Color_DarkGray" />
@@ -182,10 +197,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="10p"
+                    android:layout_weight="4.5"
+                    android:text="@{newsData.time}"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/Color_DarkGray" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="25dp"
+                    android:layout_gravity="end"
+                    android:onClick="@{() -> FIMv.clickBookmark(newsData)}"
+                    android:src="@{newsData.mark? @drawable/bookmark_select:@drawable/bookmark}"
+                    android:scaleType="centerInside" />
             </LinearLayout>
 
             <View
@@ -193,7 +217,7 @@
                 android:layout_height="0.2dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:visibility="@{newsData.lastNews}"
                 android:background="@color/Color_DarkGray" />

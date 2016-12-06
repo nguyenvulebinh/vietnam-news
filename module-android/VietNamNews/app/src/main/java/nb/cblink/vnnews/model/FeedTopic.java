@@ -7,6 +7,8 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import nb.cblink.vnnews.R;
 
@@ -25,8 +27,10 @@ public class FeedTopic extends BaseObservable {
     private int backgroundSrc;
     @Bindable
     private int backgroundSrcVisibility;
+    private int navIcon;
 
     private ArrayList<News> listNews;
+    private ArrayList<String> listReference;
 
     public FeedTopic() {
         colorTopic = 0xffa29394;
@@ -34,6 +38,7 @@ public class FeedTopic extends BaseObservable {
         backgroundSrc = R.drawable.buildings;
         backgroundSrcVisibility = View.VISIBLE;
         listNews = new ArrayList<>();
+        listReference = new ArrayList<>();
     }
 
     public String getNameTopic() {
@@ -53,7 +58,10 @@ public class FeedTopic extends BaseObservable {
     }
 
     public void addNews(News news) {
+        if (listNews.size() > 0) listNews.get(0).setFirstNews(false);
         listNews.add(news);
+        sort(listNews);
+        listNews.get(0).setFirstNews(true);
     }
 
     /**
@@ -62,7 +70,12 @@ public class FeedTopic extends BaseObservable {
      * @param list
      */
     private void sort(ArrayList<News> list) {
-
+        Collections.sort(list, new Comparator<News>() {
+            @Override
+            public int compare(News news, News t1) {
+                return (int) (news.getCurrentMilisecond() - t1.getCurrentMilisecond());
+            }
+        });
     }
 
     private int timeCompare(String time1, String time2) {
@@ -102,5 +115,21 @@ public class FeedTopic extends BaseObservable {
     public void setBackgroundSrcVisibility(int backgroundSrcVisibility) {
         this.backgroundSrcVisibility = backgroundSrcVisibility;
         notifyPropertyChanged(BR.backgroundSrcVisibility);
+    }
+
+    public ArrayList<String> getListReference() {
+        return listReference;
+    }
+
+    public void setListReference(ArrayList<String> listReference) {
+        this.listReference = listReference;
+    }
+
+    public int getNavIcon() {
+        return navIcon;
+    }
+
+    public void setNavIcon(int navIcon) {
+        this.navIcon = navIcon;
     }
 }

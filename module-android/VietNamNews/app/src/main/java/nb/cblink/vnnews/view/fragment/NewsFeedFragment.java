@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 
 import com.yalantis.phoenix.PullToRefreshView;
 
+import java.util.ArrayList;
+
 import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.databinding.NewsFeedDataBinding;
+import nb.cblink.vnnews.model.FeedTopic;
 import nb.cblink.vnnews.modelview.NewsFeedModelView;
 import nb.cblink.vnnews.view.activity.MainActivity;
 

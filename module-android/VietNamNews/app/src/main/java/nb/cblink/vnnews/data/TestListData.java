@@ -17,8 +17,7 @@ import nb.cblink.vnnews.model.News;
 
 public class TestListData {
 
-    public static ArrayList<FeedTopic> getData() {
-        ArrayList<FeedTopic> listTopic = new ArrayList<>();
+    public static void getData(ArrayList<FeedTopic> listTopic) {
         try {
             JSONObject jsonObj = new JSONObject(data).getJSONObject("Dân trí");
             Iterator<String> map = jsonObj.keys();
@@ -52,7 +51,6 @@ public class TestListData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return listTopic;
     }
 
 

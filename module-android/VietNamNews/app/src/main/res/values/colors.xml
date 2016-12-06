@@ -14,6 +14,9 @@
     <color name="tabTextSelected">#fff</color>
 
     <color name="headerBackground">#57eeeeee</color>
+    <color name="colorCardView">#f7f7f7</color>
 
     <color name="selectedItemBackground">#aaaaaa</color>
+    <color name="bookmark">#ffffffff</color>
+    <color name="bookmark_select">#3b5998</color>
 </resources>
