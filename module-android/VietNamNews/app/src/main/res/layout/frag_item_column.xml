@@ -97,7 +97,8 @@
                     android:layout_gravity="end"
                     android:layout_weight="1"
                     android:scaleType="centerInside"
-                    android:src="@{newsData.mark? @drawable/bookmark_select:@drawable/bookmark}" />
+                    android:src="@{newsData.mark? @drawable/bookmark_select:@drawable/bookmark}"
+                    android:onClick="@{() -> CItemMv.clickBookmark(newsData)}" />
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

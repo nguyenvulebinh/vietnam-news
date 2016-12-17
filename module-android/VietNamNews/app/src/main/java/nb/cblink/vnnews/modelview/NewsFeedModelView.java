@@ -1,5 +1,6 @@
 package nb.cblink.vnnews.modelview;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -21,12 +22,16 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import nb.cblink.vnnews.R;
+import nb.cblink.vnnews.data.BookmarkFactory;
 import nb.cblink.vnnews.data.DataFactory;
 import nb.cblink.vnnews.model.FeedTopic;
 import nb.cblink.vnnews.model.News;
@@ -44,6 +49,7 @@ public class NewsFeedModelView {
     private Window window;
     private DatabaseReference mFirebaseDatabaseReference;
     private NewsFeedAdapter adapter;
+    private ProgressDialog progress;
 
     public NewsFeedModelView(MainActivity context, RecyclerView recyclerView, PullToRefreshView mPullToRefreshView) {
         this.context = context;
@@ -59,13 +65,19 @@ public class NewsFeedModelView {
 
     private void getData() {
         if (!DataFactory.getInstance().haveData()) {
+            progress.show();
             long currentMilisecond;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", new Locale("vi"));
+            ArrayList<String> listChild = new ArrayList<>();
+            Map<String, FeedTopic> mapFeedToChild = new HashMap<>();
+            //Lay bookmark hien tai
+            BookmarkFactory.getReference(context).getCurrentBookmark();
             for (final FeedTopic topic : DataFactory.getInstance().data) {
+                //Dang ky su kien co tin moi
                 currentMilisecond = System.currentTimeMillis();
                 String currentDateandTime = sdf.format(currentMilisecond);
                 for (String refer : topic.getListReference()) {
-                    mFirebaseDatabaseReference.child("normal/" + refer + "/" + currentDateandTime).addChildEventListener(new ChildEventListener() {
+                    mFirebaseDatabaseReference.child("normal/" + refer + "/" + currentDateandTime).limitToLast(1).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             News news = new News();
@@ -76,22 +88,13 @@ public class NewsFeedModelView {
                             news.setTime((String) mapData.get("date"));
                             news.setPaperName(((String) mapData.get("labels")));
                             news.setContent(((String) mapData.get("content")).replaceAll("\n", "").replaceAll("\t", ""));
+                            news.setMark(BookmarkFactory.getReference(context).isBookmarked(news));
                             topic.addNews(news);
                             adapter.notifySectionDataSetChanged(DataFactory.getInstance().data.indexOf(topic));
                         }
 
                         @Override
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                            News news = new News();
-                            HashMap mapData = (HashMap) dataSnapshot.getValue();
-                            news.setNewsTitle((String) mapData.get("title"));
-                            news.setNewsUrl((String) mapData.get("url"));
-                            news.setImageUrl((String) mapData.get("image_url"));
-                            news.setTime((String) mapData.get("date"));
-                            news.setPaperName(((String) mapData.get("labels")));
-                            news.setContent(((String) mapData.get("content")).replaceAll("\n", "").replaceAll("\t", ""));
-                            topic.addNews(news);
-                            adapter.notifySectionDataSetChanged(DataFactory.getInstance().data.indexOf(topic));
                         }
 
                         @Override
@@ -106,43 +109,54 @@ public class NewsFeedModelView {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
                         }
                     });
                 }
-                if (topic.getListNews().size() < 10) {
-                    currentMilisecond -= (24 * 60 * 60 * 1000);
-                    currentDateandTime = sdf.format((new Date(currentMilisecond)));
+                for (int i = 0; i < 2; i++) {
+                    currentDateandTime = sdf.format((new Date(currentMilisecond - (24 * 60 * 60 * 1000) * i)));
                     //Lay them tin
                     for (String refer : topic.getListReference()) {
-                        mFirebaseDatabaseReference.child("normal/" + refer + "/" + currentDateandTime).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.getValue() != null) {
-                                    Iterator iterator = ((HashMap) dataSnapshot.getValue()).values().iterator();
-                                    while (iterator.hasNext()) {
-                                        News news = new News();
-                                        HashMap mapData = (HashMap) iterator.next();
-                                        news.setNewsTitle((String) mapData.get("title"));
-                                        news.setNewsUrl((String) mapData.get("url"));
-                                        news.setImageUrl((String) mapData.get("image_url"));
-                                        news.setTime((String) mapData.get("date"));
-                                        news.setPaperName(((String) mapData.get("labels")));
-                                        news.setContent(((String) mapData.get("content")).replaceAll("\n", "").replaceAll("\t", ""));
-                                        topic.addNews(news);
-                                        adapter.notifySectionDataSetChanged(DataFactory.getInstance().data.indexOf(topic));
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
+                        listChild.add(refer + "/" + currentDateandTime);
+                        mapFeedToChild.put(refer + "/" + currentDateandTime, topic);
                     }
                 }
             }
+            //Lay cac tin tu 2 ngay gan day
+            getOldData(0, listChild, mapFeedToChild);
+        }
+    }
+
+    private void getOldData(final int index, final ArrayList<String> listChild, final Map<String, FeedTopic> mapFeedToChild) {
+        if (index == listChild.size()) {
+            progress.dismiss();
+            adapter.notifyAllSectionsDataSetChanged();
+        } else {
+            mFirebaseDatabaseReference.child("normal/" + listChild.get(index)).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        Iterator iterator = ((HashMap) dataSnapshot.getValue()).values().iterator();
+                        while (iterator.hasNext()) {
+                            News news = new News();
+                            HashMap mapData = (HashMap) iterator.next();
+                            news.setNewsTitle((String) mapData.get("title"));
+                            news.setNewsUrl((String) mapData.get("url"));
+                            news.setImageUrl((String) mapData.get("image_url"));
+                            news.setTime((String) mapData.get("date"));
+                            news.setPaperName(((String) mapData.get("labels")));
+                            news.setContent(((String) mapData.get("content")).replaceAll("\n", "").replaceAll("\t", ""));
+                            news.setMark(BookmarkFactory.getReference(context).isBookmarked(news));
+                            mapFeedToChild.get(listChild.get(index)).addNews(news);
+                        }
+                    }
+                    getOldData(index + 1, listChild, mapFeedToChild);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    getOldData(index + 1, listChild, mapFeedToChild);
+                }
+            });
         }
     }
 
@@ -208,5 +222,11 @@ public class NewsFeedModelView {
                 }, 1000);
             }
         });
+
+        //inti progress dialog
+        progress = new ProgressDialog(context);
+        progress.setTitle("Waiting");
+        progress.setMessage("Get news data...");
+        progress.setCancelable(false);
     }
 }

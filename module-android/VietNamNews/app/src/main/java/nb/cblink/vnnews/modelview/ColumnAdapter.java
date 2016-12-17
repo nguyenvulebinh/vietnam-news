@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.data.DataFactory;
 import nb.cblink.vnnews.databinding.ColumnItemDataBinding;
-import nb.cblink.vnnews.model.ColumnNews;
 import nb.cblink.vnnews.model.FeedTopic;
-import nb.cblink.vnnews.model.News;
 
 /**
  * Created by nguyenbinh on 22/11/2016.

@@ -11,12 +11,10 @@ import com.google.firebase.database.DatabaseReference;
 
 import org.zakariya.stickyheaders.SectioningAdapter;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.data.DataFactory;
-import nb.cblink.vnnews.data.TestListData;
 import nb.cblink.vnnews.databinding.FeedHeaderDataBinding;
 import nb.cblink.vnnews.databinding.FeedItemDataBinding;
 import nb.cblink.vnnews.model.FeedTopic;

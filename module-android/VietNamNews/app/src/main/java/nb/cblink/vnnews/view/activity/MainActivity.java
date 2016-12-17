@@ -30,6 +30,8 @@ import nb.cblink.vnnews.R;
 import nb.cblink.vnnews.data.DataFactory;
 import nb.cblink.vnnews.data.TopicPrereference;
 import nb.cblink.vnnews.model.FeedTopic;
+import nb.cblink.vnnews.modelview.NewsFeedModelView;
+import nb.cblink.vnnews.view.fragment.BookmarkFragment;
 import nb.cblink.vnnews.view.fragment.NewsFeedFragment;
 import nb.cblink.vnnews.view.fragment.SpecificColumnFragment;
 
@@ -106,9 +108,10 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_radio) {
-//            toolbar.setVisibility(View.GONE);
         }
+//        else if (id == R.id.action_radio) {
+//            toolbar.setVisibility(View.GONE);
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -143,6 +146,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_news_feed) {
             fragment = new NewsFeedFragment();
             title = getString(R.string.news_feed);
+        } else if (id == R.id.nav_book_mark) {
+            fragment = new BookmarkFragment();
+            title = getString(R.string.book_mark);
         } else {
             for (int i = 0; i < DataFactory.getInstance().data.size(); i++) {
                 FeedTopic topic = DataFactory.getInstance().data.get(i);
@@ -202,6 +208,7 @@ public class MainActivity extends AppCompatActivity
                             }
                         }
                     }
+                    TopicPrereference.getReference(MainActivity.this).saveTopicPrereference(DataFactory.getInstance().data);
                     updateMenuNavigation();
                     displayView(R.id.nav_news_feed);
                     if (progress != null) {

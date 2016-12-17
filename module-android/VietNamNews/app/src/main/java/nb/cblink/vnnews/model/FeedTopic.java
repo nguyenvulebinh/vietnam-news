@@ -9,8 +9,11 @@ import com.android.databinding.library.baseAdapters.BR;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Map;
 
 import nb.cblink.vnnews.R;
+import nb.cblink.vnnews.data.BookmarkFactory;
 
 /**
  * Created by nguyenbinh on 17/11/2016.
@@ -28,6 +31,7 @@ public class FeedTopic extends BaseObservable {
     @Bindable
     private int backgroundSrcVisibility;
     private int navIcon;
+    private HashSet<String> hashSetUrl;
 
     private ArrayList<News> listNews;
     private ArrayList<String> listReference;
@@ -39,6 +43,7 @@ public class FeedTopic extends BaseObservable {
         backgroundSrcVisibility = View.VISIBLE;
         listNews = new ArrayList<>();
         listReference = new ArrayList<>();
+        hashSetUrl = new HashSet<>();
     }
 
     public String getNameTopic() {
@@ -58,10 +63,13 @@ public class FeedTopic extends BaseObservable {
     }
 
     public void addNews(News news) {
-        if (listNews.size() > 0) listNews.get(0).setFirstNews(false);
-        listNews.add(news);
-        sort(listNews);
-        listNews.get(0).setFirstNews(true);
+        if (!hashSetUrl.contains(news.getNewsUrl())) {
+            if (listNews.size() > 0) listNews.get(0).setFirstNews(false);
+            listNews.add(news);
+            sort(listNews);
+            listNews.get(0).setFirstNews(true);
+            hashSetUrl.add(news.getNewsUrl());
+        }
     }
 
     /**

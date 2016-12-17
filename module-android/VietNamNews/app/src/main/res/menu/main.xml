@@ -6,10 +6,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_radio"
-        android:orderInCategory="100"
-        android:icon="@drawable/radio_icon"
-        app:showAsAction="always"
-        android:title="Radio" />
+    <!--<item-->
+    <!--android:id="@+id/action_radio"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:icon="@drawable/radio_icon"-->
+    <!--app:showAsAction="always"-->
+    <!--android:title="Radio" />-->
 </menu>

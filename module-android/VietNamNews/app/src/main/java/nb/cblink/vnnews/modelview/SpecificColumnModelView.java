@@ -1,16 +1,13 @@
 package nb.cblink.vnnews.modelview;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.thefinestartist.finestwebview.FinestWebView;
 import com.yalantis.phoenix.PullToRefreshView;
 
-import nb.cblink.vnnews.model.ColumnNews;
+import nb.cblink.vnnews.model.News;
 import nb.cblink.vnnews.view.activity.MainActivity;
 
 /**
@@ -52,6 +49,10 @@ public class SpecificColumnModelView {
 
     public void showWebNews(View v, String url) {
         new FinestWebView.Builder(v.getContext()).show(url);
+    }
+
+    public void clickBookmark(News news) {
+        news.setMark(!news.isMark());
     }
 
 }
