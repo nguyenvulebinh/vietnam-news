@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'nguyenbinh'
-            keyPassword 'b@@ng01121994'
-            storeFile file('/home/nguyenbinh/Programming/Android/keystore/nguyenbinh.jks')
-            storePassword 'b@@ng01121994'
+            keyPassword ''
+            storeFile file(')
+            storePassword ''
         }
     }
     compileSdkVersion 24
